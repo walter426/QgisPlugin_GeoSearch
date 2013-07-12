@@ -257,6 +257,21 @@
     <string>Result</string>
    </property>
   </widget>
+  <zorder>Latitude_lineEdit</zorder>
+  <zorder>latitude_label</zorder>
+  <zorder>Longitude_lineEdit</zorder>
+  <zorder>Longitude_label</zorder>
+  <zorder>Address_label</zorder>
+  <zorder>SearchByAddr_pushButton</zorder>
+  <zorder>SearchByPt_pushButton</zorder>
+  <zorder>Geocoder_Addr_comboBox</zorder>
+  <zorder>Geocoder_Addr_label</zorder>
+  <zorder>Geocoder_Addr_label_2</zorder>
+  <zorder>Geocoder_Pt_comboBox</zorder>
+  <zorder>ExactOneResult_checkBox</zorder>
+  <zorder>Result_tabWidget</zorder>
+  <zorder>SearchStatus_label</zorder>
+  <zorder>Addr_lineEdit</zorder>
  </widget>
  <resources/>
  <connections/>

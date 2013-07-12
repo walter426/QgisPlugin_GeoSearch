@@ -48,10 +48,11 @@ class GeoSearchDialog(QtGui.QDialog):
         
         
         #Search By Address Setup
-        #self.ui.Geocoder_Addr_comboBox.addItems(["GoogleV3", "Yahoo!", "geocoder.us", "GeoNames", "MediaWiki", "Semantic MediaWiki"])
-        self.ui.Geocoder_Addr_comboBox.addItems(["GoogleV3", "geocoder.us", "GeoNames", "MediaWiki", "Semantic MediaWiki"])
+        #self.ui.Geocoder_Addr_comboBox.addItems(["GoogleV3", "Yahoo!", "geocoder.us", "GeoNames", "MediaWiki", "Semantic MediaWiki", "Bing", "OpenMapQuest", "MapQuest"])
+        self.ui.Geocoder_Addr_comboBox.addItems(["GoogleV3", "geocoder.us", "GeoNames", "MediaWiki", "Semantic MediaWiki", "OpenMapQuest", "MapQuest"])
         self.ui.Geocoder_Addr_comboBox.setCurrentIndex(0)
         
+        self.ui.Addr_lineEdit.setFocus()
         self.connect(self.ui.SearchByAddr_pushButton, SIGNAL("clicked()"), self.SearchByAddr_ButtonHandler)
         
         
@@ -106,6 +107,15 @@ class GeoSearchDialog(QtGui.QDialog):
         elif geocoder_type == "Semantic MediaWiki":
             geocoder = geocoders.SemanticMediaWiki("http://wiki.case.edu/%s", attributes=['Coordinates'], relations=['Located in'])  
         
+        #elif geocoder_type == "Bing":
+        #    geocoder = geocoders.Bing('YOUR_APP_ID_HERE')  
+            
+        elif geocoder_type == "OpenMapQuest":
+            geocoder = geocoders.OpenMapQuest()  
+            
+        elif geocoder_type == "MapQuest":
+            geocoder = geocoders.MapQuest()  
+            
         else:
             return
         
@@ -153,7 +163,7 @@ class GeoSearchDialog(QtGui.QDialog):
             
             #20130710, wt, no result are returned if set "exactly_one" to True
             #result = geocoder.reverse(point, exactly_one = exactly_one)
-            result = geocoder.reverse(point)
+            result = geocoder.reverse(point, exactly_one = exactly_one)
             
         except:
             return

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\ui_geosearch.ui'
 #
-# Created: Fri Jul 12 10:17:04 2013
+# Created: Fri Jul 12 17:24:26 2013
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
