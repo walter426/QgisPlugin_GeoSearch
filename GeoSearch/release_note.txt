@@ -1,0 +1,1 @@
+-----------------------------------------------------------------Model: QGIS Python Plugin, GeoSearchQGIS ver: 1.8.0Version: 0.01.00Date: 07/12/2013By: Walter Tsui1. Formal release 0.01.00
