@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>512</width>
+    <width>547</width>
     <height>413</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
     <rect>
      <x>170</x>
      <y>90</y>
-     <width>113</width>
+     <width>101</width>
      <height>20</height>
     </rect>
    </property>
@@ -39,9 +39,9 @@
   <widget class="QLineEdit" name="Longitude_lineEdit">
    <property name="geometry">
     <rect>
-     <x>290</x>
+     <x>280</x>
      <y>90</y>
-     <width>113</width>
+     <width>101</width>
      <height>20</height>
     </rect>
    </property>
@@ -49,7 +49,7 @@
   <widget class="QLabel" name="Longitude_label">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>290</x>
      <y>70</y>
      <width>46</width>
      <height>13</height>
@@ -64,7 +64,7 @@
     <rect>
      <x>172</x>
      <y>40</y>
-     <width>231</width>
+     <width>261</width>
      <height>20</height>
     </rect>
    </property>
@@ -85,9 +85,9 @@
   <widget class="QPushButton" name="SearchByAddr_pushButton">
    <property name="geometry">
     <rect>
-     <x>420</x>
+     <x>440</x>
      <y>40</y>
-     <width>75</width>
+     <width>81</width>
      <height>23</height>
     </rect>
    </property>
@@ -98,9 +98,9 @@
   <widget class="QPushButton" name="SearchByPt_pushButton">
    <property name="geometry">
     <rect>
-     <x>420</x>
+     <x>470</x>
      <y>90</y>
-     <width>75</width>
+     <width>71</width>
      <height>23</height>
     </rect>
    </property>
@@ -158,7 +158,7 @@
    <property name="geometry">
     <rect>
      <x>380</x>
-     <y>120</y>
+     <y>130</y>
      <width>111</width>
      <height>17</height>
     </rect>
@@ -175,7 +175,7 @@
     <rect>
      <x>20</x>
      <y>130</y>
-     <width>471</width>
+     <width>511</width>
      <height>261</height>
     </rect>
    </property>
@@ -190,7 +190,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>20</y>
+       <y>10</y>
        <width>171</width>
        <height>16</height>
       </rect>
@@ -203,9 +203,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>40</y>
-       <width>441</width>
-       <height>192</height>
+       <y>31</y>
+       <width>481</width>
+       <height>201</height>
       </rect>
      </property>
     </widget>
@@ -219,7 +219,7 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>441</width>
+       <width>481</width>
        <height>191</height>
       </rect>
      </property>
@@ -243,7 +243,7 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>120</y>
+     <y>130</y>
      <width>91</width>
      <height>16</height>
     </rect>
@@ -255,6 +255,19 @@
    </property>
    <property name="text">
     <string>Result</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="GoToGetCoordinateFromMapCanvasMode_pushButton">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>90</y>
+     <width>71</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>From Map...</string>
    </property>
   </widget>
   <zorder>Latitude_lineEdit</zorder>
@@ -272,6 +285,7 @@
   <zorder>Result_tabWidget</zorder>
   <zorder>SearchStatus_label</zorder>
   <zorder>Addr_lineEdit</zorder>
+  <zorder>GoToGetCoordinateFromMapCanvasMode_pushButton</zorder>
  </widget>
  <resources/>
  <connections/>

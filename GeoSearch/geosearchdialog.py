@@ -61,7 +61,13 @@ class GeoSearchDialog(QtGui.QDialog):
         self.ui.Geocoder_Pt_comboBox.setCurrentIndex(0)
         
         self.connect(self.ui.SearchByPt_pushButton, SIGNAL("clicked()"), self.SearchByPt_ButtonHandler)
+        
+        #Emit Point Tool
+        self.QMT_EmitPt = QgsMapToolEmitPoint(self.mapCanvas)
+        self.connect(self.ui.GoToGetCoordinateFromMapCanvasMode_pushButton, SIGNAL("clicked()"), self.GoToGetCoordinateFromMapCanvasMode)
+        self.connect(self.QMT_EmitPt, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.GetCoordinateFromMapCanvas)
 
+        
         #Result List View Setup
         self.connect(self.ui.Result_listWidget, SIGNAL("itemDoubleClicked (QListWidgetItem *)"), self.ZoomToResultItem)
         
@@ -76,6 +82,20 @@ class GeoSearchDialog(QtGui.QDialog):
         self.close()
         
         
+    def GoToGetCoordinateFromMapCanvasMode(self):
+        self.hide()
+        self.mapCanvas.setMapTool(self.QMT_EmitPt)
+   
+   
+    def GetCoordinateFromMapCanvas(self, pt, mButton):
+        self.mapCanvas.unsetMapTool(self.QMT_EmitPt)
+        pt_WGS84 = pointToWGS84(pt, self.mapCanvas.mapRenderer().destinationCrs())
+        
+        self.show()
+        self.ui.Latitude_lineEdit.setText(str(pt_WGS84.y()))
+        self.ui.Longitude_lineEdit.setText(str(pt_WGS84.x()))
+        
+   
     def SearchByAddr_ButtonHandler(self):
         self.ui.SearchStatus_label.setText("Searching......")
         result = self.SearchByAddr(unicode(self.ui.Addr_lineEdit.text()), self.ui.Geocoder_Addr_comboBox.currentText(), self.ui.ExactOneResult_checkBox.isChecked())
@@ -289,3 +309,23 @@ class GeoSearchDialog(QtGui.QDialog):
         #QMessageBox.information(None, "Error", str(Type(Vl_Gs)))
         #QMessageBox.information(None, "Error", str(self.ui.Result_listWidget.currentRow()))
         #QMessageBox.information(None, "Error", str(item.text()))
+
+
+#Modified from GeoCoding\Utils.py
+def pointToWGS84(point, crs_src):
+    crs_WGS84 = QgsCoordinateReferenceSystem()
+    crs_WGS84.createFromSrid(4326)
+
+    transformer = QgsCoordinateTransform(crs_src, crs_WGS84)
+    pt = transformer.transform(point)
+    
+    return pt
+
+def pointFromWGS84(point, crs_des):
+    crs_WGS84 = QgsCoordinateReferenceSystem()
+    crs_WGS84.createFromSrid(4326)
+
+    transformer = QgsCoordinateTransform(crs_WGS84, crs_des)
+    pt = transformer.transform(point)
+    
+    return pt
