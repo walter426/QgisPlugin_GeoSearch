@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\ui_geosearch.ui'
 #
-# Created: Mon Jul 15 11:12:46 2013
+# Created: Wed Jul 17 10:29:37 2013
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,7 +17,7 @@ except AttributeError:
 class Ui_GeoSearch(object):
     def setupUi(self, GeoSearch):
         GeoSearch.setObjectName(_fromUtf8("GeoSearch"))
-        GeoSearch.resize(547, 413)
+        GeoSearch.resize(547, 409)
         self.Latitude_lineEdit = QtGui.QLineEdit(GeoSearch)
         self.Latitude_lineEdit.setGeometry(QtCore.QRect(170, 90, 101, 20))
         self.Latitude_lineEdit.setObjectName(_fromUtf8("Latitude_lineEdit"))
@@ -55,11 +55,11 @@ class Ui_GeoSearch(object):
         self.Geocoder_Pt_comboBox.setGeometry(QtCore.QRect(20, 90, 141, 22))
         self.Geocoder_Pt_comboBox.setObjectName(_fromUtf8("Geocoder_Pt_comboBox"))
         self.ExactOneResult_checkBox = QtGui.QCheckBox(GeoSearch)
-        self.ExactOneResult_checkBox.setGeometry(QtCore.QRect(380, 130, 111, 17))
+        self.ExactOneResult_checkBox.setGeometry(QtCore.QRect(420, 120, 111, 17))
         self.ExactOneResult_checkBox.setChecked(True)
         self.ExactOneResult_checkBox.setObjectName(_fromUtf8("ExactOneResult_checkBox"))
         self.Result_tabWidget = QtGui.QTabWidget(GeoSearch)
-        self.Result_tabWidget.setGeometry(QtCore.QRect(20, 130, 511, 261))
+        self.Result_tabWidget.setGeometry(QtCore.QRect(20, 140, 511, 261))
         self.Result_tabWidget.setObjectName(_fromUtf8("Result_tabWidget"))
         self.tab = QtGui.QWidget()
         self.tab.setObjectName(_fromUtf8("tab"))
@@ -80,7 +80,7 @@ class Ui_GeoSearch(object):
         self.Result_List_label_2.setObjectName(_fromUtf8("Result_List_label_2"))
         self.Result_tabWidget.addTab(self.tab_2, _fromUtf8(""))
         self.SearchStatus_label = QtGui.QLabel(GeoSearch)
-        self.SearchStatus_label.setGeometry(QtCore.QRect(220, 130, 91, 16))
+        self.SearchStatus_label.setGeometry(QtCore.QRect(240, 120, 91, 16))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.SearchStatus_label.setFont(font)

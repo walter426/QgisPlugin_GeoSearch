@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>547</width>
-    <height>413</height>
+    <height>409</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -157,8 +157,8 @@
   <widget class="QCheckBox" name="ExactOneResult_checkBox">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>130</y>
+     <x>420</x>
+     <y>120</y>
      <width>111</width>
      <height>17</height>
     </rect>
@@ -174,7 +174,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>130</y>
+     <y>140</y>
      <width>511</width>
      <height>261</height>
     </rect>
@@ -242,8 +242,8 @@
   <widget class="QLabel" name="SearchStatus_label">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>130</y>
+     <x>240</x>
+     <y>120</y>
      <width>91</width>
      <height>16</height>
     </rect>
@@ -281,11 +281,11 @@
   <zorder>Geocoder_Addr_label</zorder>
   <zorder>Geocoder_Addr_label_2</zorder>
   <zorder>Geocoder_Pt_comboBox</zorder>
-  <zorder>ExactOneResult_checkBox</zorder>
   <zorder>Result_tabWidget</zorder>
   <zorder>SearchStatus_label</zorder>
   <zorder>Addr_lineEdit</zorder>
   <zorder>GoToGetCoordinateFromMapCanvasMode_pushButton</zorder>
+  <zorder>ExactOneResult_checkBox</zorder>
  </widget>
  <resources/>
  <connections/>
