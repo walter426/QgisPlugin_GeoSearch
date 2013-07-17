@@ -12,7 +12,7 @@
 name=GeoSearch
 qgisMinimumVersion=1.8
 description=Search location by words like google map
-version=0.03.01
+version=0.04.00
 author=Walter Tsui
 email=waltertech426@gmail.com
 

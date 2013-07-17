@@ -30,8 +30,12 @@ from qgis.gui import *
 from ui_geosearch import Ui_GeoSearch
 
 # create the dialog for zoom to point
+# Make sure geopy is imported from current path, and then remove the path after imported
+import sys, os
+sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
+from GeoSearch.geopy import geocoders
+sys.path.remove(os.path.dirname(os.path.realpath(__file__)))
 
-from geopy import geocoders
 
 class GeoSearchDialog(QtGui.QDialog):
     def __init__(self, iface):
@@ -57,7 +61,7 @@ class GeoSearchDialog(QtGui.QDialog):
         
         
         #Search By Point Setup
-        self.ui.Geocoder_Pt_comboBox.addItems(["GoogleV3", "GeoNames"])
+        self.ui.Geocoder_Pt_comboBox.addItems(["GoogleV3"])
         self.ui.Geocoder_Pt_comboBox.setCurrentIndex(0)
         
         self.connect(self.ui.SearchByPt_pushButton, SIGNAL("clicked()"), self.SearchByPt_ButtonHandler)
@@ -132,10 +136,10 @@ class GeoSearchDialog(QtGui.QDialog):
             
         elif geocoder_type == "OpenMapQuest":
             geocoder = geocoders.OpenMapQuest()  
-            
+        
         elif geocoder_type == "MapQuest":
             geocoder = geocoders.MapQuest()  
-            
+        
         else:
             return
         
@@ -146,6 +150,7 @@ class GeoSearchDialog(QtGui.QDialog):
         except:
             return
         
+ 
         
         if isinstance(result, (list, tuple)) == False:
             return
@@ -168,21 +173,16 @@ class GeoSearchDialog(QtGui.QDialog):
         self.UpdateSearchResult(result)
         
         
-    def SearchByPt(self, lat, lnt, geocoder_type, exactly_one = True): 
+    def SearchByPt(self, lat, lnt, geocoder_type, exactly_one): 
         if geocoder_type == "GoogleV3":
             geocoder = geocoders.GoogleV3()
 
-        elif geocoder_type == "GeoNames":
-            geocoder = geocoders.GeoNames()  
-
         else:
             return
-        
+       
+
         try:
             point = (lat, lnt)
-            
-            #20130710, wt, no result are returned if set "exactly_one" to True
-            #result = geocoder.reverse(point, exactly_one = exactly_one)
             result = geocoder.reverse(point, exactly_one = exactly_one)
             
         except:
