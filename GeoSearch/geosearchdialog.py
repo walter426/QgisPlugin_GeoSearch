@@ -32,9 +32,6 @@ from ui_geosearch import Ui_GeoSearch
 # create the dialog for zoom to point
 # Make sure geopy is imported from current path, and then remove the path after imported
 import sys, os
-sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
-from GeoSearch.geopy import geocoders
-sys.path.remove(os.path.dirname(os.path.realpath(__file__)))
 
 
 class GeoSearchDialog(QtGui.QDialog):
@@ -74,7 +71,7 @@ class GeoSearchDialog(QtGui.QDialog):
         
         #Result List View Setup
         self.connect(self.ui.Result_listWidget, SIGNAL("itemDoubleClicked (QListWidgetItem *)"), self.ZoomToResultItem)
-        
+
     
     def __del__(self):
         self.closeEvent(None)
@@ -98,7 +95,7 @@ class GeoSearchDialog(QtGui.QDialog):
         self.show()
         self.ui.Latitude_lineEdit.setText(str(pt_WGS84.y()))
         self.ui.Longitude_lineEdit.setText(str(pt_WGS84.x()))
-        self.SearchByAddr_ButtonHandler
+        self.SearchByPt_ButtonHandler()
         
    
     def SearchByAddr_ButtonHandler(self):
@@ -113,6 +110,12 @@ class GeoSearchDialog(QtGui.QDialog):
         if len(Addr) <= 0:
             return
 
+        
+        sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
+        from GeoSearch.geopy import geocoders
+        sys.path.remove(os.path.dirname(os.path.realpath(__file__)))        
+            
+            
         #Search location info
         if geocoder_type == "GoogleV3":
             geocoder = geocoders.GoogleV3()
@@ -145,14 +148,16 @@ class GeoSearchDialog(QtGui.QDialog):
             return
         
 
+        result = []
+       
         try:
             result = geocoder.geocode(Addr, exactly_one = exactly_one)
             
         except:
-            return
+            if len(result) == 0:
+                return
         
  
-        
         if isinstance(result, (list, tuple)) == False:
             return
             
@@ -174,21 +179,28 @@ class GeoSearchDialog(QtGui.QDialog):
         self.UpdateSearchResult(result)
         
         
-    def SearchByPt(self, lat, lnt, geocoder_type, exactly_one): 
+    def SearchByPt(self, lat, lnt, geocoder_type, exactly_one):
+        sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
+        from GeoSearch.geopy import geocoders
+        sys.path.remove(os.path.dirname(os.path.realpath(__file__)))
+            
+            
         if geocoder_type == "GoogleV3":
             geocoder = geocoders.GoogleV3()
 
         else:
             return
        
-        #point = lat + "," + lnt
-        #result = geocoder.reverse(point, exactly_one = exactly_one)
+       
+        result = []
+       
         try:
             point = lat + "," + lnt
             result = geocoder.reverse(point, exactly_one = exactly_one)
             
         except:
-            return
+            if len(result) == 0:
+                return
         
         
         if isinstance(result, (list, tuple)) == False:
