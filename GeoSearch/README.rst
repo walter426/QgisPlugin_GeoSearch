@@ -21,4 +21,3 @@
 
 Description:
 A QGIS Plugin Tool for searching locations by address or position(latitude, longtitude).
-This tool was built on QGIS build-in geopy.
