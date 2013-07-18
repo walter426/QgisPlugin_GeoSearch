@@ -12,7 +12,7 @@
 name=GeoSearch
 qgisMinimumVersion=1.8
 description=Search location by words like google map
-version=0.04.00
+version=0.04.01
 author=Walter Tsui
 email=waltertech426@gmail.com
 
@@ -24,11 +24,11 @@ email=waltertech426@gmail.com
 # changelog=
 
 # tags are comma separated with spaces allowed
-tags=
+tags=maptool
 
-homepage=
+homepage=http://waltertech426.blogspot.hk/
 tracker=
-repository=
+repository=https://github.com/walter426/QgisPlugin_GeoSearch/
 icon=icon.png
 # experimental flag
 experimental=False

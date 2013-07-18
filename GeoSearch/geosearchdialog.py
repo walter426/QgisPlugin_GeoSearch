@@ -98,6 +98,7 @@ class GeoSearchDialog(QtGui.QDialog):
         self.show()
         self.ui.Latitude_lineEdit.setText(str(pt_WGS84.y()))
         self.ui.Longitude_lineEdit.setText(str(pt_WGS84.x()))
+        self.SearchByAddr_ButtonHandler
         
    
     def SearchByAddr_ButtonHandler(self):
@@ -143,7 +144,7 @@ class GeoSearchDialog(QtGui.QDialog):
         else:
             return
         
-        
+
         try:
             result = geocoder.geocode(Addr, exactly_one = exactly_one)
             
@@ -180,9 +181,10 @@ class GeoSearchDialog(QtGui.QDialog):
         else:
             return
        
-
+        #point = lat + "," + lnt
+        #result = geocoder.reverse(point, exactly_one = exactly_one)
         try:
-            point = (lat, lnt)
+            point = lat + "," + lnt
             result = geocoder.reverse(point, exactly_one = exactly_one)
             
         except:
@@ -252,7 +254,7 @@ class GeoSearchDialog(QtGui.QDialog):
 
         while Vl_Gs.nextFeature(feat):
             FetIdList.append(feat.id())
-        
+
         #QMessageBox.information(None, "Error", str(feat.id()))
 
         #Refresh the MapCanvas
@@ -264,8 +266,6 @@ class GeoSearchDialog(QtGui.QDialog):
         Vl_Gs.setSelectedFeatures(FetIdList)
         self.mapCanvas.zoomToSelected(Vl_Gs)
         #self.mapCanvas.zoomOut()
-        
-        return
         
         
     def UpdateSearchResult(self, result):
