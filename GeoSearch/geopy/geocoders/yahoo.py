@@ -41,6 +41,7 @@ class Yahoo(Geocoder):
         return self.geocode_url(url, exactly_one)
 
     def geocode_url(self, url, exactly_one=True):
+        raise ValueError(url)
         page = urlopen(url)
         return self.parse_json(page, exactly_one)
     

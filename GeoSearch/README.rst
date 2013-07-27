@@ -20,4 +20,5 @@
 """
 
 Description:
-A QGIS Plugin Tool for searching locations by address or position(latitude, longtitude).
+A QGIS Plugin Tool:
+Search location by words like google map; Calculate Distance between two points on mapCanvas.

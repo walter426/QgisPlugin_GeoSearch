@@ -3,7 +3,7 @@
 /***************************************************************************
  GeoSearch
                                  A QGIS plugin
- Search location by words like google map
+ Search location by words like google map; Calculate Distance between two points on mapCanvas.
                              -------------------
         begin                : 2013-07-10
         copyright            : (C) 2013 by Walter Tsui
@@ -27,11 +27,11 @@ def name():
 
 
 def description():
-    return "Search location by words like google map"
+    return "Search location by words like google map; Calculate Distance between two points on mapCanvas."
 
 
 def version():
-    return "Version 0.04.02"
+    return "Version 0.05.00"
 
 
 def icon():
