@@ -11,8 +11,8 @@
 [general]
 name=GeoSearch
 qgisMinimumVersion=1.8
-description=Search location by words like google map; Calculate Distance between two points on mapCanvas.
-version=0.05.00
+description=Search location by words like google map; Calculate Distance between two points on mapCanvas.(0.05.00)
+version=0.05.01
 author=Walter Tsui
 email=waltertech426@gmail.com
 

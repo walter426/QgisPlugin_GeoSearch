@@ -110,6 +110,8 @@ class GeoSearchDialog(QtGui.QDialog):
         self.ui.DistUnit_comboBox.addItems(["kilometers", "meters", "miles", "feet", "nautical"])
         self.ui.DistUnit_comboBox.setCurrentIndex(0)
         
+        self.connect(self.ui.DistUnit_comboBox, SIGNAL("currentIndexChanged (int)"), self.DistUnit_cB_CurrIdxChanged)
+        
         #Calculate button
         self.connect(self.ui.CalculateDist_pushButton, SIGNAL("clicked()"), self.CalculateDist_ButtonHandler)
         
@@ -405,18 +407,14 @@ class GeoSearchDialog(QtGui.QDialog):
         PtA = (str(self.ui.Dist_PtA_Latitude_lineEdit.text()), str(self.ui.Dist_PtA_Longitude_lineEdit.text()))
         PtB = (str(self.ui.Dist_PtB_Latitude_lineEdit.text()), str(self.ui.Dist_PtB_Longitude_lineEdit.text()))
         
-        Dist = self.CalculateDist(PtA, PtB, self.ui.DistFomula_comboBox.currentText(), self.ui.VctElliModel_comboBox.currentText(), self.ui.DistUnit_comboBox.currentText())
+        self.PtA = PtA
+        self.PtB = PtB
         
-        try:
-            Dist = str(Dist)
-        except:
-            return
-            
-        self.ui.Dist_lineEdit.setText(Dist)
-        self.CreateVectorLayerGeoSearch_Dist(PtA, PtB, Dist, self.ui.DistUnit_comboBox.currentText())
+        self.Dist = self.CalculateDist(PtA, PtB, self.ui.DistFomula_comboBox.currentText(), self.ui.VctElliModel_comboBox.currentText())
+        self.UpdateDistAtDistUnit(self.Dist)
         
     
-    def CalculateDist(self, PtA, PtB, DistFormula, VctElliModel, DistUnit):
+    def CalculateDist(self, PtA, PtB, DistFormula, VctElliModel):
         sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
         from GeoSearch.geopy import distance
         sys.path.remove(os.path.dirname(os.path.realpath(__file__)))
@@ -433,12 +431,21 @@ class GeoSearchDialog(QtGui.QDialog):
         else:
             return
             
-        
         #Calculate distance
-        Dist = distance.distance(PtA, PtB)
+        return distance.distance(PtA, PtB)
+    
+    
+    def UpdateDistAtDistUnit(self, objDist):
+        try:
+            Dist = str(self.GetDistAtDistUnit(objDist, self.ui.DistUnit_comboBox.currentText()))
+            self.ui.Dist_lineEdit.setText(Dist)
+            self.CreateVectorLayerGeoSearch_Dist(self.PtA, self.PtB, Dist, self.ui.DistUnit_comboBox.currentText())
+            
+        except:
+            return
+
         
-        
-        #Set Distance Unit
+    def GetDistAtDistUnit(self, Dist, DistUnit):
         if DistUnit == "kilometers":
             return Dist.kilometers
 		
@@ -456,8 +463,8 @@ class GeoSearchDialog(QtGui.QDialog):
         
         else:
             return
-    
-    
+            
+            
     def CreateVectorLayerGeoSearch_Dist(self, PtA, PtB, Dist, DistUnit):
         #Create the vector layer of the result
         mapLayers = QgsMapLayerRegistry.instance().mapLayers()
@@ -537,6 +544,14 @@ class GeoSearchDialog(QtGui.QDialog):
         self.mapCanvas.zoomToSelected(Vl_Gs)
         self.mapCanvas.zoomOut()
     
+    
+    def DistUnit_cB_CurrIdxChanged(self, CurrIdx):
+        try:
+            self.UpdateDistAtDistUnit(self.Dist)
+       
+        except:
+            return
+            
     
 #Modified from GeoCoding\Utils.py
 def pointToWGS84(point, crs_src):
