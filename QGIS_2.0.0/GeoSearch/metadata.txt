@@ -1,0 +1,38 @@
+# This file contains metadata for your plugin. Beginning
+# with version 1.8 this is the preferred way to supply information about a
+# plugin. The current method of embedding metadata in __init__.py will
+# be supported until version 2.0
+
+# This file should be included when you package your plugin.
+
+# Mandatory items:
+
+
+[general]
+name=GeoSearch
+qgisMinimumVersion=2.0
+description=Search location by words like google map; Calculate Distance between two points on mapCanvas.(0.05.00)
+version=0.05.02
+author=Walter Tsui
+email=waltertech426@gmail.com
+
+# end of mandatory metadata
+
+# Optional items:
+
+# Uncomment the following line and add your changelog entries:
+changelog= Modification for QGIS 2.0 API
+
+# tags are comma separated with spaces allowed
+tags=maptool
+
+homepage=http://waltertech426.blogspot.hk/
+tracker=maptool
+repository=https://github.com/walter426/QgisPlugin_GeoSearch/
+icon=icon.png
+# experimental flag
+experimental=False
+
+# deprecated flag (applies to the whole plugin, not just a single version
+deprecated=False
+
