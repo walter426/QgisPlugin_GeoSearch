@@ -174,10 +174,13 @@ class GoogleV3(Geocoder):
         if not places:
             check_status(self.doc.get('status'))
             return None
+            
+        '''    
         elif exactly_one and len(places) != 1:
             raise ValueError(
                 "Didn't find exactly one placemark! (Found %d)" % len(places))
-    
+        '''
+        
         def parse_place(place):
             '''Get the location, lat, lng from a single json place.'''
             location = place.get('formatted_address')
