@@ -337,7 +337,7 @@ class GeoSearchDialog(QtGui.QDialog):
         
         
         #Zoom to Search Results
-        #Vl_Gs.removeSelection(False)
+        #Vl_Gs.removeSelection()
         Vl_Gs.setSelectedFeatures(FetIdList)
         self.mapCanvas.zoomToSelected(Vl_Gs)
         #self.mapCanvas.zoomOut()
@@ -377,7 +377,7 @@ class GeoSearchDialog(QtGui.QDialog):
         if DoesVl_GsExist == False:
             return
             
-        Vl_Gs.removeSelection(False)
+        Vl_Gs.removeSelection()
         Vl_Gs.setSelectedFeatures([self.ui.Result_listWidget.currentRow() + 1])
         self.mapCanvas.zoomToSelected(Vl_Gs)   
         
@@ -539,7 +539,7 @@ class GeoSearchDialog(QtGui.QDialog):
         self.mapCanvas.refresh()
         
         #Zoom to Search Results
-        #Vl_Gs.removeSelection(False)
+        #Vl_Gs.removeSelection()
         Vl_Gs.setSelectedFeatures(FetIdList)
         self.mapCanvas.zoomToSelected(Vl_Gs)
         self.mapCanvas.zoomOut()
