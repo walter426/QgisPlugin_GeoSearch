@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>550</width>
-    <height>430</height>
+    <height>433</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -58,7 +58,7 @@
     <widget class="QCheckBox" name="ExactOneResult_checkBox">
      <property name="geometry">
       <rect>
-       <x>410</x>
+       <x>360</x>
        <y>110</y>
        <width>111</width>
        <height>17</height>
@@ -221,7 +221,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>130</y>
+       <y>140</y>
        <width>511</width>
        <height>261</height>
       </rect>
@@ -285,6 +285,25 @@
        </property>
       </widget>
      </widget>
+    </widget>
+    <widget class="QCheckBox" name="SearchOnGoogleWebMap_checkBox">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>360</x>
+       <y>130</y>
+       <width>161</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Search On Google Web Map</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="Distance_tab">

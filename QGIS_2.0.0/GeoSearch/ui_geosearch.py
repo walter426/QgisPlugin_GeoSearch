@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file '.\ui_geosearch.ui'
 #
-# Created: Sun Jul 28 03:17:26 2013
-#      by: PyQt4 UI code generator 4.9.4
+# Created: Thu Dec 12 17:21:57 2013
+#      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -17,7 +17,7 @@ except AttributeError:
 class Ui_GeoSearch(object):
     def setupUi(self, GeoSearch):
         GeoSearch.setObjectName(_fromUtf8("GeoSearch"))
-        GeoSearch.resize(550, 430)
+        GeoSearch.resize(550, 433)
         self.FeatureOption_tabWidget = QtGui.QTabWidget(GeoSearch)
         self.FeatureOption_tabWidget.setGeometry(QtCore.QRect(0, 0, 541, 421))
         self.FeatureOption_tabWidget.setObjectName(_fromUtf8("FeatureOption_tabWidget"))
@@ -30,7 +30,7 @@ class Ui_GeoSearch(object):
         self.Longitude_label.setGeometry(QtCore.QRect(290, 60, 51, 16))
         self.Longitude_label.setObjectName(_fromUtf8("Longitude_label"))
         self.ExactOneResult_checkBox = QtGui.QCheckBox(self.Pt_tab)
-        self.ExactOneResult_checkBox.setGeometry(QtCore.QRect(410, 110, 111, 17))
+        self.ExactOneResult_checkBox.setGeometry(QtCore.QRect(360, 110, 111, 17))
         self.ExactOneResult_checkBox.setChecked(True)
         self.ExactOneResult_checkBox.setObjectName(_fromUtf8("ExactOneResult_checkBox"))
         self.SearchByAddr_pushButton = QtGui.QPushButton(self.Pt_tab)
@@ -73,7 +73,7 @@ class Ui_GeoSearch(object):
         self.SearchStatus_label.setFont(font)
         self.SearchStatus_label.setObjectName(_fromUtf8("SearchStatus_label"))
         self.Result_tabWidget = QtGui.QTabWidget(self.Pt_tab)
-        self.Result_tabWidget.setGeometry(QtCore.QRect(10, 130, 511, 261))
+        self.Result_tabWidget.setGeometry(QtCore.QRect(10, 140, 511, 261))
         self.Result_tabWidget.setObjectName(_fromUtf8("Result_tabWidget"))
         self.List_tab = QtGui.QWidget()
         self.List_tab.setObjectName(_fromUtf8("List_tab"))
@@ -93,6 +93,11 @@ class Ui_GeoSearch(object):
         self.Result_List_label_2.setGeometry(QtCore.QRect(10, 10, 141, 16))
         self.Result_List_label_2.setObjectName(_fromUtf8("Result_List_label_2"))
         self.Result_tabWidget.addTab(self.Text_tab, _fromUtf8(""))
+        self.SearchOnGoogleWebMap_checkBox = QtGui.QCheckBox(self.Pt_tab)
+        self.SearchOnGoogleWebMap_checkBox.setEnabled(True)
+        self.SearchOnGoogleWebMap_checkBox.setGeometry(QtCore.QRect(360, 130, 161, 20))
+        self.SearchOnGoogleWebMap_checkBox.setChecked(False)
+        self.SearchOnGoogleWebMap_checkBox.setObjectName(_fromUtf8("SearchOnGoogleWebMap_checkBox"))
         self.FeatureOption_tabWidget.addTab(self.Pt_tab, _fromUtf8(""))
         self.Distance_tab = QtGui.QWidget()
         self.Distance_tab.setObjectName(_fromUtf8("Distance_tab"))
@@ -173,6 +178,7 @@ class Ui_GeoSearch(object):
         self.Result_tabWidget.setTabText(self.Result_tabWidget.indexOf(self.List_tab), QtGui.QApplication.translate("GeoSearch", "List", None, QtGui.QApplication.UnicodeUTF8))
         self.Result_List_label_2.setText(QtGui.QApplication.translate("GeoSearch", "For direct copy", None, QtGui.QApplication.UnicodeUTF8))
         self.Result_tabWidget.setTabText(self.Result_tabWidget.indexOf(self.Text_tab), QtGui.QApplication.translate("GeoSearch", "Text", None, QtGui.QApplication.UnicodeUTF8))
+        self.SearchOnGoogleWebMap_checkBox.setText(QtGui.QApplication.translate("GeoSearch", "Search On Google Web Map", None, QtGui.QApplication.UnicodeUTF8))
         self.FeatureOption_tabWidget.setTabText(self.FeatureOption_tabWidget.indexOf(self.Pt_tab), QtGui.QApplication.translate("GeoSearch", "Point", None, QtGui.QApplication.UnicodeUTF8))
         self.CalculateDist_pushButton.setText(QtGui.QApplication.translate("GeoSearch", "Calculate", None, QtGui.QApplication.UnicodeUTF8))
         self.Dist_PtA_GoToGetCoorFromMapCanvasMode_pushButton.setText(QtGui.QApplication.translate("GeoSearch", "From Map...", None, QtGui.QApplication.UnicodeUTF8))

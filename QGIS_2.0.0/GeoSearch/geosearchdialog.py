@@ -129,16 +129,20 @@ class GeoSearchDialog(QtGui.QDialog):
    
     def SearchByAddr_ButtonHandler(self):
         self.ui.SearchStatus_label.setText("Searching......")
-        result = self.SearchByAddr(unicode(self.ui.Addr_lineEdit.text()), self.ui.Geocoder_Addr_comboBox.currentText(), self.ui.ExactOneResult_checkBox.isChecked())
+        result = self.SearchByAddr(unicode(self.ui.Addr_lineEdit.text()), self.ui.Geocoder_Addr_comboBox.currentText(), self.ui.ExactOneResult_checkBox.isChecked(), self.ui.SearchOnGoogleWebMap_checkBox.isChecked())
         self.ui.SearchStatus_label.setText("Result")
         
         self.UpdateSearchResult(result)
         
         
-    def SearchByAddr(self, Addr, geocoder_type, exactly_one = True):
+    def SearchByAddr(self, Addr, geocoder_type, exactly_one = True, SearchOnGoogleWebMap = False):
         if len(Addr) <= 0:
             return
 
+        if SearchOnGoogleWebMap == True:
+            import webbrowser
+            webbrowser.open("https://www.google.com/maps/preview#!q=" + Addr)
+        
         
         sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
         from GeoSearch.geopy import geocoders
@@ -178,7 +182,7 @@ class GeoSearchDialog(QtGui.QDialog):
         
 
         result = []
-        result = geocoder.geocode(Addr, exactly_one = exactly_one)
+
         try:
             result = geocoder.geocode(Addr, exactly_one = exactly_one)
             
@@ -223,8 +227,8 @@ class GeoSearchDialog(QtGui.QDialog):
             
         elif self.QMT_PtTarget == "Dist_PtB":
             self.Dist_PtB_GetCoorFromMapCanvas(pt_WGS84)
+            
         
-    
     def Pt_GetCoorFromMapCanvas(self, pt_WGS84):
         self.ui.Latitude_lineEdit.setText(str(pt_WGS84.y()))
         self.ui.Longitude_lineEdit.setText(str(pt_WGS84.x()))
@@ -233,13 +237,18 @@ class GeoSearchDialog(QtGui.QDialog):
     
     def SearchByPt_ButtonHandler(self):
         self.ui.SearchStatus_label.setText("Searching......")
-        result = self.SearchByPt(str(self.ui.Latitude_lineEdit.text()), str(self.ui.Longitude_lineEdit.text()), self.ui.Geocoder_Pt_comboBox.currentText(), self.ui.ExactOneResult_checkBox.isChecked())
+        result = self.SearchByPt(str(self.ui.Latitude_lineEdit.text()), str(self.ui.Longitude_lineEdit.text()), self.ui.Geocoder_Pt_comboBox.currentText(), self.ui.ExactOneResult_checkBox.isChecked(), self.ui.SearchOnGoogleWebMap_checkBox.isChecked())
         self.ui.SearchStatus_label.setText("Result")
         
         self.UpdateSearchResult(result)
         
         
-    def SearchByPt(self, lat, lnt, geocoder_type, exactly_one):
+    def SearchByPt(self, lat, lnt, geocoder_type, exactly_one, SearchOnGoogleWebMap = False):
+        if SearchOnGoogleWebMap == True:
+            import webbrowser
+            webbrowser.open("https://www.google.com/maps/preview#!q=" + lat + "%2C+" + lnt)
+      
+    
         sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
         from GeoSearch.geopy import geocoders
         sys.path.remove(os.path.dirname(os.path.realpath(__file__)))
@@ -554,6 +563,25 @@ class GeoSearchDialog(QtGui.QDialog):
             
     
 #Modified from GeoCoding\Utils.py
+def CoorTransformByCrsId(point, crs_id_src, crs_id_des):
+    crs_src = QgsCoordinateReferenceSystem()
+    crs_src.createFromSrid(crs_id_src)
+
+    crs_des = QgsCoordinateReferenceSystem()
+    crs_des.createFromSrid(crs_id_des)
+
+    transformer = QgsCoordinateTransform(crs_src, crs_des)
+    pt = transformer.transform(point)
+    
+    return pt
+
+#Coordinate Transform
+def CoorTransform(point, crs_src, crs_des):
+    transformer = QgsCoordinateTransform(crs_src, crs_des)
+    pt = transformer.transform(point)
+    
+    return pt
+    
 def pointToWGS84(point, crs_src):
     crs_WGS84 = QgsCoordinateReferenceSystem()
     crs_WGS84.createFromSrid(4326)

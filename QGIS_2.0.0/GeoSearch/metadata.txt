@@ -12,7 +12,7 @@
 name=GeoSearch
 qgisMinimumVersion=2.0
 description=Search location by words like google map; Calculate Distance between two points on mapCanvas.(0.05.00)
-version=0.05.04
+version=0.06.00
 author=Walter Tsui
 email=waltertech426@gmail.com
 
@@ -21,7 +21,7 @@ email=waltertech426@gmail.com
 # Optional items:
 
 # Uncomment the following line and add your changelog entries:
-changelog= Modification for QGIS 2.0 API
+changelog= Add new feature: search on Google Web Map
 
 # tags are comma separated with spaces allowed
 tags=maptool

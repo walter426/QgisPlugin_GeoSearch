@@ -27,11 +27,11 @@ def name():
 
 
 def description():
-    return "Search location by words like google map; Calculate Distance between two points on mapCanvas."
+    return "Search location by words like google map; Calculate Distance between two points on mapCanvas"
 
 
 def version():
-    return "Version 0.05.04"
+    return "Version 0.06.00"
 
 
 def icon():
