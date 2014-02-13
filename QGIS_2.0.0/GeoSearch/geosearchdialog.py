@@ -129,13 +129,13 @@ class GeoSearchDialog(QtGui.QDialog):
    
     def SearchByAddr_ButtonHandler(self):
         self.ui.SearchStatus_label.setText("Searching......")
-        result = self.SearchByAddr(unicode(self.ui.Addr_lineEdit.text()), self.ui.Geocoder_Addr_comboBox.currentText(), self.ui.ExactOneResult_checkBox.isChecked(), self.ui.SearchOnGoogleWebMap_checkBox.isChecked())
+        result = self.SearchByAddr(unicode(self.ui.Addr_lineEdit.text()), self.ui.Geocoder_Addr_comboBox.currentText(), self.ui.ExactOneResult_checkBox.isChecked(), self.ui.SearchOnGoogleWebMap_checkBox.isChecked(), self.ui.ObtainElevation_checkBox.isChecked())
         self.ui.SearchStatus_label.setText("Result")
         
         self.UpdateSearchResult(result)
         
         
-    def SearchByAddr(self, Addr, geocoder_type, exactly_one = True, SearchOnGoogleWebMap = False):
+    def SearchByAddr(self, Addr, geocoder_type, exactly_one = True, SearchOnGoogleWebMap = False, ObtainElevation = False):
         if len(Addr) <= 0:
             return
 
@@ -198,8 +198,13 @@ class GeoSearchDialog(QtGui.QDialog):
             result = [result]
         
         
+        #Obtain Elevation
+        if ObtainElevation == True:
+            self.AppendElevationIntoGeocodeResult(result)
+            
+        #Create vectorlayer, GeoSearch
         self.CreateVectorLayerGeoSearch(result)
-        
+            
         return result
     
     
@@ -237,13 +242,13 @@ class GeoSearchDialog(QtGui.QDialog):
     
     def SearchByPt_ButtonHandler(self):
         self.ui.SearchStatus_label.setText("Searching......")
-        result = self.SearchByPt(str(self.ui.Latitude_lineEdit.text()), str(self.ui.Longitude_lineEdit.text()), self.ui.Geocoder_Pt_comboBox.currentText(), self.ui.ExactOneResult_checkBox.isChecked(), self.ui.SearchOnGoogleWebMap_checkBox.isChecked())
+        result = self.SearchByPt(str(self.ui.Latitude_lineEdit.text()), str(self.ui.Longitude_lineEdit.text()), self.ui.Geocoder_Pt_comboBox.currentText(), self.ui.ExactOneResult_checkBox.isChecked(), self.ui.SearchOnGoogleWebMap_checkBox.isChecked(), self.ui.ObtainElevation_checkBox.isChecked())
         self.ui.SearchStatus_label.setText("Result")
         
         self.UpdateSearchResult(result)
         
         
-    def SearchByPt(self, lat, lnt, geocoder_type, exactly_one, SearchOnGoogleWebMap = False):
+    def SearchByPt(self, lat, lnt, geocoder_type, exactly_one, SearchOnGoogleWebMap = False, ObtainElevation = False):
         if SearchOnGoogleWebMap == True:
             import webbrowser
             webbrowser.open("https://www.google.com/maps/preview#!q=" + lat + "%2C+" + lnt)
@@ -282,11 +287,37 @@ class GeoSearchDialog(QtGui.QDialog):
             result = [result]
         
         
+        #Obtain Elevation
+        if ObtainElevation == True:
+            self.AppendElevationIntoGeocodeResult(result)
+            
+        #Create vectorlayer, GeoSearch
         self.CreateVectorLayerGeoSearch(result)
         
         return result
         
+    
+    def AppendElevationIntoGeocodeResult(self, result):
+        LatLngSet = []
+            
+        for LocaInfo in result: 
+            place, (lat, lng) = LocaInfo
+            LatLngSet.append([lat, lng])
+            
+        import elevation
+        ElevationService = elevation.Elevation()
+        ElevationResult = ElevationService.GetElevation(LatLngSet)
         
+        if isinstance(ElevationResult, (list, tuple)) == True:
+            for i in range(len(result)):
+                place, (lat, lng) = result[i]
+                elevation, (lat_e, lng_e), resolution = ElevationResult[i]
+                result[i] = (place, (lat, lng), (elevation, resolution))
+                
+                
+        return result
+        
+    
     def CreateVectorLayerGeoSearch(self, result):
         #Create the vector layer of the result
         mapLayers = QgsMapLayerRegistry.instance().mapLayers()
@@ -298,9 +329,16 @@ class GeoSearchDialog(QtGui.QDialog):
             if layer.name() == "GeoSearch":
                 QgsMapLayerRegistry.instance().removeMapLayer(layer.id())
                 break
-                
         
-        Vl_Gs = QgsVectorLayer("Point?crs=epsg:4326&field=Place:string(50)&index=yes", "GeoSearch", "memory")
+        if isinstance(result, (list, tuple)) == False:
+            return
+            
+        str_FldSet = "field=Place:string(50)"
+        
+        if len(result[0]) >= 3:
+            str_FldSet = str_FldSet + "&field=Elevation:double&field=Resolution:double"
+        
+        Vl_Gs = QgsVectorLayer("Point?crs=epsg:4326&" + str_FldSet + "&index=yes", "GeoSearch", "memory")
         dP_Gs = Vl_Gs.dataProvider()
         #Vl_Gs.setCrs(self.mapCanvas.mapRenderer().destinationCrs())
         QgsMapLayerRegistry.instance().addMapLayer(Vl_Gs)
@@ -319,12 +357,20 @@ class GeoSearchDialog(QtGui.QDialog):
         
 
         for LocaInfo in result: 
-            place, (lat, lng) = LocaInfo
+            place = LocaInfo[0]
+            (lat, lng) = LocaInfo[1]
 
+            AttrSet = [place]
+            
+            if len(LocaInfo) >= 3:
+                (elevation, resolution) = LocaInfo[2]
+                AttrSet.append(elevation)
+                AttrSet.append(resolution)
+            
             Fet_Gs = QgsFeature()
             QgsPoint_F = QgsPoint(float(lng),float(lat))
             Fet_Gs.setGeometry(QgsGeometry.fromPoint(QgsPoint_F))
-            Fet_Gs.setAttributes([place])
+            Fet_Gs.setAttributes(AttrSet)
 
             #Vl_Gs.addFeatures([Fet_Gs])
             dP_Gs.addFeatures([Fet_Gs])
@@ -502,7 +548,8 @@ class GeoSearchDialog(QtGui.QDialog):
         QgsPoint_A = QgsPoint(float(PtA[1]),float(PtA[0]))
         QgsPoint_B = QgsPoint(float(PtB[1]),float(PtB[0]))
         Fet_Gs.setGeometry(QgsGeometry.fromMultiPolyline([[QgsPoint_A, QgsPoint_B]]))
-        Fet_Gs.setAttributeMap({0:QVariant(Dist + " " + DistUnit)})
+        #Fet_Gs.setAttributeMap({0:QVariant(Dist + " " + DistUnit)})
+        Fet_Gs.setAttributes([Dist + " " + DistUnit])
         dP_Gs.addFeatures([Fet_Gs])
         
         Vl_Gs.updateExtents()

@@ -11,8 +11,8 @@
 [general]
 name=GeoSearch
 qgisMinimumVersion=2.0
-description=Search location by words like google map; Calculate Distance between two points on mapCanvas.(0.05.00)
-version=0.06.00
+description=Search location(with elevation) by words or point like google map; Calculate Distance between two points on mapCanvas.
+version=0.07.01
 author=Walter Tsui
 email=waltertech426@gmail.com
 
@@ -21,7 +21,7 @@ email=waltertech426@gmail.com
 # Optional items:
 
 # Uncomment the following line and add your changelog entries:
-changelog= Add new feature: search on Google Web Map
+changelog= Add new feature: Get elevations;Fix no line is shown for distance
 
 # tags are comma separated with spaces allowed
 tags=maptool
