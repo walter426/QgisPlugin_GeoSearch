@@ -251,7 +251,7 @@ class GeoSearchDialog(QtGui.QDialog):
     def SearchByPt(self, lat, lnt, geocoder_type, exactly_one, SearchOnGoogleWebMap = False, ObtainElevation = False):
         if SearchOnGoogleWebMap == True:
             import webbrowser
-            webbrowser.open("https://www.google.com/maps/preview#!q=" + lat + "%2C+" + lnt)
+            webbrowser.open("https://www.google.com/maps/@" + lat + "%2C" + lnt + ",15z")
       
     
         sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
