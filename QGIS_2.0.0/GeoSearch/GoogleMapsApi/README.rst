@@ -1,12 +1,11 @@
-# -*- coding: utf-8 -*-
 """
 /***************************************************************************
- GeoSearch
-                                 A QGIS plugin
- Search location by words like google map; Calculate Distance between two points on mapCanvas.
+ Google Maps API
+                                 A Python module
+Provide Goole Maps API Web Service under Python 
                              -------------------
-        begin                : 2013-07-10
-        copyright            : (C) 2013 by Walter Tsui
+        begin                : 2014-02-14
+        copyright            : (C) 2014 by Walter Tsui
         email                : waltertech426@gmail.com
  ***************************************************************************/
 
@@ -18,36 +17,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- This script initializes the plugin, making it known to QGIS.
 """
 
-
-def name():
-    return "GeoSearch"
-
-
-def description():
-    return "Search location by words like google map; Calculate Distance between two points on mapCanvas"
-
-
-def version():
-    return "Version 0.08.00"
-
-
-def icon():
-    return "icon.png"
-
-
-def qgisMinimumVersion():
-    return "2.0"
-
-def author():
-    return "Walter Tsui"
-
-def email():
-    return "waltertech426@gmail.com"
-
-def classFactory(iface):
-    # load GeoSearch class from file GeoSearch
-    from geosearch import GeoSearch
-    return GeoSearch(iface)
+Description:
+A Python module:
+Provide Google Maps Web Services 

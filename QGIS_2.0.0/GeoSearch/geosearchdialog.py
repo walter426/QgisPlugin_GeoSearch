@@ -42,12 +42,13 @@ class GeoSearchDialog(QtGui.QDialog):
         self.ui.setupUi(self)
         
         self.iface = iface
+        self.legend = self.iface.legendInterface()
         
         #mapCanvas setup
         self.mapCanvas = self.iface.mapCanvas()
         self.RubberBand = QgsRubberBand(self.mapCanvas, False)
         
-        #Feature - Point Setup
+        #Feature Setup - Point
         #{
         #Geocoder Setup
         self.AppId_Yahoo = 'xAlMKR7V34F7nB3NRrV4sb3KAh8CvdnjCmigr.5.NhU3vAmynIIUzI_fxef7kJLbG3jEGQ'
@@ -73,12 +74,16 @@ class GeoSearchDialog(QtGui.QDialog):
         self.connect(self.ui.GoToGetCoorFromMapCanvasMode_pushButton, SIGNAL("clicked()"), self.Pt_GoToGetCoorFromMapCanvasMode)
         self.connect(self.QMT_EmitPt, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.GetCoorFromMapCanvas)
         
+        #Search Preference
+        self.connect(self.ui.ObtainElevation_checkBox, SIGNAL("stateChanged (int)"), self.ObtainElevationStateUpdate)
+        
         #Result List View Setup
         self.connect(self.ui.Result_listWidget, SIGNAL("itemDoubleClicked (QListWidgetItem *)"), self.ZoomToResultItem)
         
         #}
         
-        #Feature - Distance Setup
+        #Feature Setup - Distance
+        #{
         #DistFomula_comboBox
         self.ui.DistFomula_comboBox.addItems(["Great Circle", "Vincenty"])
         self.ui.DistFomula_comboBox.setCurrentIndex(0)
@@ -114,7 +119,19 @@ class GeoSearchDialog(QtGui.QDialog):
         
         #Calculate button
         self.connect(self.ui.CalculateDist_pushButton, SIGNAL("clicked()"), self.CalculateDist_ButtonHandler)
+        #}
         
+        
+        #Feature Setup - Route
+        #{
+        self.ui.Route_TravelMode_comboBox.addItems(["driving", "walking", "bicycling", "transit"])
+        self.ui.Route_Avoid_comboBox.addItems(["none", "tolls", "highways"])
+        self.ui.Route_DistUnit_comboBox.addItems(["metric", "imperial"])
+        
+        self.connect(self.ui.Route_GoToGetCoorFromMapCanvasMode_pushButton, SIGNAL("clicked()"), self.Route_GoToGetCoorFromMapCanvasMode)
+        self.connect(self.ui.SearchRoute_pushButton, SIGNAL("clicked()"), self.SearchRoute_ButtonHandler)
+
+        #}
         
     def __del__(self):
         self.closeEvent(None)
@@ -125,6 +142,13 @@ class GeoSearchDialog(QtGui.QDialog):
         self.mapCanvas.clear()
         self.mapCanvas.refresh()
         self.close()
+    
+    
+    def ObtainElevationStateUpdate(self, state):
+        if state == 2:
+            self.ui.ResultFmt_label.setText("(Place, (Latitude, Longtitude), (Elevation, Resolution))")
+        else:
+            self.ui.ResultFmt_label.setText("(Place, (Latitude, Longtitude))")
         
    
     def SearchByAddr_ButtonHandler(self):
@@ -151,6 +175,8 @@ class GeoSearchDialog(QtGui.QDialog):
             
         #Search location info
         if geocoder_type == "GoogleV3":
+            #import GoogleMapsApi.geocode
+            #geocoder = GoogleMapsApi.geocode.Geocoding()
             geocoder = geocoders.GoogleV3()
 
         #elif geocoder_type == "Yahoo!":
@@ -219,19 +245,33 @@ class GeoSearchDialog(QtGui.QDialog):
    
         
     def GetCoorFromMapCanvas(self, pt, mButton):
-        self.mapCanvas.unsetMapTool(self.QMT_EmitPt)
-        pt_WGS84 = pointToWGS84(pt, self.mapCanvas.mapRenderer().destinationCrs())
-        
-        self.show()
-        
-        if self.QMT_PtTarget == "Pt":
-            self.Pt_GetCoorFromMapCanvas(pt_WGS84)
-        
-        elif self.QMT_PtTarget == "Dist_PtA":
-            self.Dist_PtA_GetCoorFromMapCanvas(pt_WGS84)
+        if self.QMT_PtTarget == "Pt" or self.QMT_PtTarget == "Dist_PtA" or self.QMT_PtTarget == "Dist_PtB":
+            pt_WGS84 = pointToWGS84(pt, self.mapCanvas.mapRenderer().destinationCrs())
+            self.mapCanvas.unsetMapTool(self.QMT_EmitPt)
+            self.show()
             
-        elif self.QMT_PtTarget == "Dist_PtB":
-            self.Dist_PtB_GetCoorFromMapCanvas(pt_WGS84)
+            if self.QMT_PtTarget == "Pt":
+                self.Pt_GetCoorFromMapCanvas(pt_WGS84)
+            
+            elif self.QMT_PtTarget == "Dist_PtA":
+                self.Dist_PtA_GetCoorFromMapCanvas(pt_WGS84)
+                
+            elif self.QMT_PtTarget == "Dist_PtB":
+                self.Dist_PtB_GetCoorFromMapCanvas(pt_WGS84)
+        
+        
+        elif self.QMT_PtTarget == "Route":
+            if mButton == Qt.LeftButton:
+                self.Route_GetCoorFromMapCanvas(pt)
+        
+            else:
+                self.RubberBand.reset(False)
+                self.mapCanvas.clear()
+                self.mapCanvas.refresh()
+                #del self.QGS_MPT_R
+                
+                self.mapCanvas.unsetMapTool(self.QMT_EmitPt)
+                self.show()
             
         
     def Pt_GetCoorFromMapCanvas(self, pt_WGS84):
@@ -260,7 +300,10 @@ class GeoSearchDialog(QtGui.QDialog):
             
             
         if geocoder_type == "GoogleV3":
+            #import GoogleMapsApi.geocode
+            #geocoder = GoogleMapsApi.geocode.Geocoding()
             geocoder = geocoders.GoogleV3()
+            
 		
         #elif geocoder_type == "Yahoo!":
         #    geocoder = geocoders.Yahoo(self.AppId_Yahoo)
@@ -304,14 +347,16 @@ class GeoSearchDialog(QtGui.QDialog):
             place, (lat, lng) = LocaInfo
             LatLngSet.append([lat, lng])
             
-        import elevation
-        ElevationService = elevation.Elevation()
+        #import elevation
+        import GoogleMapsApi.elevation
+        ElevationService = GoogleMapsApi.elevation.Elevation()
         ElevationResult = ElevationService.GetElevation(LatLngSet)
         
         if isinstance(ElevationResult, (list, tuple)) == True:
             for i in range(len(result)):
                 place, (lat, lng) = result[i]
-                elevation, (lat_e, lng_e), resolution = ElevationResult[i]
+                elevation = ElevationResult[i]['elevation']
+                resolution = ElevationResult[i]['resolution']
                 result[i] = (place, (lat, lng), (elevation, resolution))
                 
                 
@@ -353,9 +398,6 @@ class GeoSearchDialog(QtGui.QDialog):
         Vl_Gs.enableLabels(True)
         
         # add a feature
-        FetIdList = []
-        
-
         for LocaInfo in result: 
             place = LocaInfo[0]
             (lat, lng) = LocaInfo[1]
@@ -381,7 +423,8 @@ class GeoSearchDialog(QtGui.QDialog):
         
         #Get the feature id of the vector layer
         FetSet = Vl_Gs.getFeatures()
-
+        FetIdList = []
+        
         for feat in FetSet:
             FetIdList.append(feat.id())
 
@@ -498,7 +541,7 @@ class GeoSearchDialog(QtGui.QDialog):
             
         except:
             return
-
+        
         
     def GetDistAtDistUnit(self, Dist, DistUnit):
         if DistUnit == "kilometers":
@@ -555,41 +598,18 @@ class GeoSearchDialog(QtGui.QDialog):
         Vl_Gs.updateExtents()
         
         #Get the feature id of the vector layer
+        FetSet = Vl_Gs.getFeatures()
         FetIdList = []
-        feat = QgsFeature()
-        Vl_Gs.select(dP_Gs.attributeIndexes())
-
-        while Vl_Gs.nextFeature(feat):
+        
+        for feat in FetSet:
             FetIdList.append(feat.id())
 
         #QMessageBox.information(None, "Error", str(feat.id()))
 
         #Symbol Setup
-        #{
-        SymLyrReg = QgsSymbolLayerV2Registry.instance()
-        MarkerLineMeta = SymLyrReg.symbolLayerMetadata("MarkerLine")
-        #SymLyr_ML = MarkerLineMeta.createSymbolLayer({'width': '0.26', 'color': '255,0,0', 'interval': '3', 'rotate': '1', 'placement': 'interval', 'offset': '-1.0'})
-        SymLyr_ML = MarkerLineMeta.createSymbolLayer({})
-        ML_Symbol = QgsSymbolV2.defaultSymbol(Vl_Gs.geometryType())
-        ML_Symbol.setColor(QColor(255, 0, 0)) #red
-        
-        #SubSymbol Setup
-        #{
-        ML_SubSym = SymLyr_ML.subSymbol()
-        ML_SubSym.deleteSymbolLayer(0)
-        #SymLyr_F_AH = SymLyrReg.symbolLayerMetadata("SimpleMarker").createSymbolLayer({'name': 'filled_arrowhead', 'color': '255,0,0', 'color_border': '0,0,0', 'offset': '0,0', 'size': '1.5', 'angle': '0'})
-        SymLyr_F_AH = SymLyrReg.symbolLayerMetadata("SimpleMarker").createSymbolLayer({'name': 'filled_arrowhead'})
-        ML_SubSym.appendSymbolLayer(SymLyr_F_AH)
-        ML_SubSym.setColor(QColor(255, 0, 0)) #red
+        #{  
+        self.CreateSymbolRendererV2ForVectorLayerOfLineStr(Vl_Gs, "MarkerLine", "SimpleMarker", "filled_arrowhead", QColor(255, 0, 0))
         #}
-        
-        ML_Symbol.deleteSymbolLayer(0)
-        ML_Symbol.appendSymbolLayer(SymLyr_ML)
-        
-        ML_SymRdrr = QgsSingleSymbolRendererV2(ML_Symbol)
-        Vl_Gs.setRendererV2(ML_SymRdrr)
-        #}
-        
         
         #Refresh the MapCanvas
         self.mapCanvas.refresh()
@@ -601,13 +621,224 @@ class GeoSearchDialog(QtGui.QDialog):
         self.mapCanvas.zoomOut()
     
     
+    def CreateSymbolRendererV2ForVectorLayerOfLineStr(self, Vl, LineMeta, MakerMeta, MakerType, Color):
+        SymLyrReg = QgsSymbolLayerV2Registry.instance()
+        MarkerLineMeta = SymLyrReg.symbolLayerMetadata(LineMeta)
+        SymLyr_ML = MarkerLineMeta.createSymbolLayer({})
+        ML_Symbol = QgsSymbolV2.defaultSymbol(Vl.geometryType())
+        ML_Symbol.setColor(Color) #red
+        
+        #SubSymbol Setup
+        #{
+        ML_SubSym = SymLyr_ML.subSymbol()
+        ML_SubSym.deleteSymbolLayer(0)
+        #SymLyr_F_AH = SymLyrReg.symbolLayerMetadata("SimpleMarker").createSymbolLayer({'name': 'filled_arrowhead', 'color': '255,0,0', 'color_border': '0,0,0', 'offset': '0,0', 'size': '1.5', 'angle': '0'})
+        SymLyr_F_AH = SymLyrReg.symbolLayerMetadata(MakerMeta).createSymbolLayer({'name': MakerType})
+        ML_SubSym.appendSymbolLayer(SymLyr_F_AH)
+        ML_SubSym.setColor(Color) #red
+        #}
+        
+        ML_Symbol.deleteSymbolLayer(0)
+        ML_Symbol.appendSymbolLayer(SymLyr_ML)
+        
+        ML_SymRdrr = QgsSingleSymbolRendererV2(ML_Symbol)
+        Vl.setRendererV2(ML_SymRdrr)
+        
+    
     def DistUnit_cB_CurrIdxChanged(self, CurrIdx):
         try:
             self.UpdateDistAtDistUnit(self.Dist)
        
         except:
             return
+    
+
+    #Route
+    def Route_GoToGetCoorFromMapCanvasMode(self):
+        self.ui.RoutePoints_textEdit.clear()
+        
+        self.QGS_MPT_R = QgsGeometry().asMultiPoint()
+        
+        self.RubberBand.setColor(QColor(255, 0, 0)) #red
+        self.RubberBand.setWidth(3)
+
+        self.GoToGetCoorFromMapCanvasMode("Route")
+        
+    
+    def Route_GetCoorFromMapCanvas(self, pt):
+        self.QGS_MPT_R.append(QgsPoint(pt))
+        self.RubberBand.reset(False)
+        self.RubberBand.setToGeometry(QgsGeometry.fromMultiPoint(self.QGS_MPT_R), None)
+        self.RubberBand.show()
+
+        self.mapCanvas.clear()
+        self.mapCanvas.refresh()
+        
+        pt_WGS84 = pointToWGS84(pt, self.mapCanvas.mapRenderer().destinationCrs())
+        self.ui.RoutePoints_textEdit.append(str(pt_WGS84.y()) + ", " + str(pt_WGS84.x()))
+        
+     
+    def SearchRoute_ButtonHandler(self):
+        #self.ui.Route_SearchStatus_label.setText("Searching......")
+        
+        RoutePtSet = str(self.ui.RoutePoints_textEdit.toPlainText()).split("\n")
+        
+        for i in range(len(RoutePtSet)):
+            RoutePtSet[i] = RoutePtSet[i].split(",")
             
+            for j in range(len(RoutePtSet[i])):
+                RoutePtSet[i][j] = RoutePtSet[i][j].strip()
+                
+                
+        result = self.SearchRoute(RoutePtSet, self.ui.Route_TravelMode_comboBox.currentText(), self.ui.Route_Avoid_comboBox.currentText(), self.ui.Route_DistUnit_comboBox.currentText())
+        
+        #self.ui.Route_SearchStatus_label.setText("Result")
+        
+    
+    def SearchRoute(self, RoutePtSet, TravelMode = 'driving', Avoid = None, DistUnit = 'metric'):
+        import GoogleMapsApi.directions
+        
+        if len(RoutePtSet) < 2:
+            return
+        
+        if Avoid == "None":
+            Avoid = None
+        
+        origin = ",".join(RoutePtSet[0])
+        destination = ",".join(RoutePtSet[-1])
+        waypoints = None
+        
+        if len(RoutePtSet) >= 3:
+            waypoints = []
+            
+            for i in range(1, len(RoutePtSet) - 1):
+                waypoints.append(",".join(RoutePtSet[i]))
+                
+            waypoints = "|".join(waypoints)
+
+        
+        DirectionsService = GoogleMapsApi.directions.Directions()
+        results = DirectionsService.GetDirections(origin, destination, mode = TravelMode, waypoints = waypoints, avoid = Avoid, units = DistUnit)
+        self.CreateVectorLayerGeoSearch_Route(results)
+        
+    
+    def CreateVectorLayerGeoSearch_Route(self, results):
+        #Create the vector layer of the result
+        mapLayers = QgsMapLayerRegistry.instance().mapLayers()
+        
+        for (name,layer) in mapLayers.iteritems():
+            if layer.type() != QgsVectorLayer.VectorLayer:
+                continue
+                
+            if layer.name() == "GeoSearch_Route_legs":
+                QgsMapLayerRegistry.instance().removeMapLayer(layer.id())
+
+            elif layer.name() == "GeoSearch_Route_steps":
+                QgsMapLayerRegistry.instance().removeMapLayer(layer.id())
+        
+        
+        if isinstance(results, (list, tuple)) == False:
+            return
+          
+        #Create, GeoSearch_Route_legs
+        str_FldSet = "field=distance_text:string(50)&field=distance_value:double"
+        str_FldSet = str_FldSet + "&field=duration_text:string(50)&field=duration_value:double"
+        str_FldSet = str_FldSet + "&field=end_addr:string(50)&field=start_addr:string(50)"
+        
+        
+        Vl_Gs = QgsVectorLayer("Linestring?crs=epsg:4326&" + str_FldSet + "&index=yes", "GeoSearch_Route_legs", "memory")
+        dP_Gs = Vl_Gs.dataProvider()
+        QgsMapLayerRegistry.instance().addMapLayer(Vl_Gs)
+        self.legend.setLayerVisible(Vl_Gs, False)
+        
+        #Enable Label
+        label = Vl_Gs.label()
+        label.setLabelField(QgsLabel.Text, 0)
+        Vl_Gs.enableLabels(True)
+        
+        
+        #Create, GeoSearch_Route_steps
+        str_FldSet = "field=distance_text:string(50)&field=distance_value:double"
+        str_FldSet = str_FldSet + "&field=duration_text:string(50)&field=duration_value:double"
+        str_FldSet = str_FldSet + "&field=travel_mode:string(50)"
+        
+        
+        Vl_Gs_S = QgsVectorLayer("Linestring?crs=epsg:4326&" + str_FldSet + "&index=yes", "GeoSearch_Route_steps", "memory")
+        dP_Gs_S = Vl_Gs_S.dataProvider()
+        QgsMapLayerRegistry.instance().addMapLayer(Vl_Gs_S)
+
+        #Enable Label
+        label = Vl_Gs_S.label()
+        label.setLabelField(QgsLabel.Text, 0)
+        Vl_Gs_S.enableLabels(True)
+        
+        
+        # add a feature
+        for leg in results[0]['legs']:
+            #Add feature of legs
+            AttrSet = []
+            AttrSet.append(leg['distance']['text'])
+            AttrSet.append(leg['distance']['value'])
+            AttrSet.append(leg['duration']['text'])
+            AttrSet.append(leg['duration']['value'])
+            AttrSet.append(leg['end_address'])
+            AttrSet.append(leg['start_address'])
+            
+            Fet_Gs = QgsFeature()
+            QgsPoint_A = QgsPoint(leg['start_location']['lng'], leg['start_location']['lat'])
+            QgsPoint_B = QgsPoint(leg['end_location']['lng'], leg['end_location']['lat'])
+            Fet_Gs.setGeometry(QgsGeometry.fromMultiPolyline([[QgsPoint_A, QgsPoint_B]]))
+            Fet_Gs.setAttributes(AttrSet)
+
+            dP_Gs.addFeatures([Fet_Gs])
+            
+            
+            for step in leg['steps']:
+                #Add feature of steps
+                AttrSet = []
+                AttrSet.append(step['distance']['text'])
+                AttrSet.append(step['distance']['value'])
+                AttrSet.append(step['duration']['text'])
+                AttrSet.append(step['duration']['value'])
+                AttrSet.append(step['travel_mode'])
+                
+                Fet_Gs = QgsFeature()
+                QgsPoint_A = QgsPoint(step['start_location']['lng'], step['start_location']['lat'])
+                QgsPoint_B = QgsPoint(step['end_location']['lng'], step['end_location']['lat'])
+                Fet_Gs.setGeometry(QgsGeometry.fromMultiPolyline([[QgsPoint_A, QgsPoint_B]]))
+                Fet_Gs.setAttributes(AttrSet)
+
+                dP_Gs_S.addFeatures([Fet_Gs])
+        
+        
+        Vl_Gs.updateExtents()
+        Vl_Gs_S.updateExtents()
+        
+        
+        #Get the feature id of the vector layer
+        FetSet = Vl_Gs_S.getFeatures()
+        FetIdList = []
+        
+        for feat in FetSet:
+            FetIdList.append(feat.id())
+
+        #QMessageBox.information(None, "Error", str(feat.id()))
+        #Symbol Setup
+        #{  
+        self.CreateSymbolRendererV2ForVectorLayerOfLineStr(Vl_Gs, "MarkerLine", "SimpleMarker", "filled_arrowhead", QColor(255, 0, 0))
+        self.CreateSymbolRendererV2ForVectorLayerOfLineStr(Vl_Gs_S, "MarkerLine", "SimpleMarker", "filled_arrowhead", QColor(255, 0, 0))
+        #}
+        
+        #Refresh the MapCanvas
+        self.mapCanvas.refresh()
+        
+        
+        #Zoom to Search Results
+        #Vl_Gs.removeSelection()
+        Vl_Gs_S.setSelectedFeatures(FetIdList)
+        self.mapCanvas.zoomToSelected(Vl_Gs_S)
+        self.mapCanvas.zoomOut()
+        
     
 #Modified from GeoCoding\Utils.py
 def CoorTransformByCrsId(point, crs_id_src, crs_id_des):
