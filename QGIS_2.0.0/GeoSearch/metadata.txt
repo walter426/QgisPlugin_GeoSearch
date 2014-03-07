@@ -12,7 +12,7 @@
 name=GeoSearch
 qgisMinimumVersion=2.0
 description=Search location(with elevation) by words or point like google map; Calculate Distance between two points on mapCanvas.; Draw Route with multi ways points by google maps service.
-version=0.08.00
+version=0.8.0
 author=Walter Tsui
 email=waltertech426@gmail.com
 
