@@ -110,6 +110,10 @@ class GeoSearchDialog(QtGui.QDialog):
         self.connect(self.ui.Dist_PtA_GoToGetCoorFromMapCanvasMode_pushButton, SIGNAL("clicked()"), self.Dist_PtA_GoToGetCoorFromMapCanvasMode)
         self.connect(self.ui.Dist_PtB_GoToGetCoorFromMapCanvasMode_pushButton, SIGNAL("clicked()"), self.Dist_PtB_GoToGetCoorFromMapCanvasMode)
 
+        #Calculate button
+        self.connect(self.ui.CalculateDist_pushButton, SIGNAL("clicked()"), self.CalculateDist_ButtonHandler)
+        #}
+        
         
         #DistUnit_comboBox
         self.ui.DistUnit_comboBox.addItems(["kilometers", "meters", "miles", "feet", "nautical"])
@@ -117,10 +121,13 @@ class GeoSearchDialog(QtGui.QDialog):
         
         self.connect(self.ui.DistUnit_comboBox, SIGNAL("currentIndexChanged (int)"), self.DistUnit_cB_CurrIdxChanged)
         
-        #Calculate button
-        self.connect(self.ui.CalculateDist_pushButton, SIGNAL("clicked()"), self.CalculateDist_ButtonHandler)
-        #}
         
+        #BearingUnit_comboBox
+        self.ui.BearingUnit_comboBox.addItems(["degree", "radian"])
+        self.ui.BearingUnit_comboBox.setCurrentIndex(0)
+        
+        self.connect(self.ui.BearingUnit_comboBox, SIGNAL("currentIndexChanged (int)"), self.BearingUnit_cB_CurrIdxChanged)
+
         
         #Feature Setup - Route
         #{
@@ -509,8 +516,9 @@ class GeoSearchDialog(QtGui.QDialog):
         self.PtB = PtB
         
         self.Dist = self.CalculateDist(PtA, PtB, self.ui.DistFomula_comboBox.currentText(), self.ui.VctElliModel_comboBox.currentText())
-        self.UpdateDistAtDistUnit(self.Dist)
-        
+        self.Bearing = Bearing(QgsPoint(float(PtA[1]), float(PtA[0])), QgsPoint(float(PtB[1]), float(PtB[0])), 4326)
+        self.UpdateDistInfo(self.Dist, self.Bearing)
+ 
     
     def CalculateDist(self, PtA, PtB, DistFormula, VctElliModel):
         sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
@@ -533,11 +541,13 @@ class GeoSearchDialog(QtGui.QDialog):
         return distance.distance(PtA, PtB)
     
     
-    def UpdateDistAtDistUnit(self, objDist):
+    def UpdateDistInfo(self, objDist, objBearing):
         try:
             Dist = str(self.GetDistAtDistUnit(objDist, self.ui.DistUnit_comboBox.currentText()))
             self.ui.Dist_lineEdit.setText(Dist)
-            self.CreateVectorLayerGeoSearch_Dist(self.PtA, self.PtB, Dist, self.ui.DistUnit_comboBox.currentText())
+            Bearing = str(self.GetBearingAtBearingUnit(objBearing, self.ui.BearingUnit_comboBox.currentText()))
+            self.ui.Bearing_lineEdit.setText(Bearing)
+            self.CreateVectorLayerGeoSearch_Dist(self.PtA, self.PtB, Dist, self.ui.DistUnit_comboBox.currentText(), Bearing)
             
         except:
             return
@@ -546,7 +556,7 @@ class GeoSearchDialog(QtGui.QDialog):
     def GetDistAtDistUnit(self, Dist, DistUnit):
         if DistUnit == "kilometers":
             return Dist.kilometers
-		
+
         elif DistUnit == "meters":
             return Dist.meters
         
@@ -563,7 +573,18 @@ class GeoSearchDialog(QtGui.QDialog):
             return
             
             
-    def CreateVectorLayerGeoSearch_Dist(self, PtA, PtB, Dist, DistUnit):
+    def GetBearingAtBearingUnit(self, Bearing, BearingUnit):
+        if BearingUnit == "degree":
+            return Bearing.degree
+
+        elif BearingUnit == "radian":
+            return Bearing.radian
+        
+        else:
+            return
+            
+            
+    def CreateVectorLayerGeoSearch_Dist(self, PtA, PtB, Dist, DistUnit, Bearing):
         #Create the vector layer of the result
         mapLayers = QgsMapLayerRegistry.instance().mapLayers()
         
@@ -576,7 +597,7 @@ class GeoSearchDialog(QtGui.QDialog):
                 break
                 
         
-        Vl_Gs = QgsVectorLayer("Linestring?crs=epsg:4326&field=Dist:string(50)&index=yes", "GeoSearch_Dist", "memory")
+        Vl_Gs = QgsVectorLayer("Linestring?crs=epsg:4326&field=Dist:string(50)&field=Bearing:double&index=yes", "GeoSearch_Dist", "memory")
         dP_Gs = Vl_Gs.dataProvider()
         #Vl_Gs.setCrs(self.mapCanvas.mapRenderer().destinationCrs())
         QgsMapLayerRegistry.instance().addMapLayer(Vl_Gs)
@@ -592,7 +613,7 @@ class GeoSearchDialog(QtGui.QDialog):
         QgsPoint_B = QgsPoint(float(PtB[1]),float(PtB[0]))
         Fet_Gs.setGeometry(QgsGeometry.fromMultiPolyline([[QgsPoint_A, QgsPoint_B]]))
         #Fet_Gs.setAttributeMap({0:QVariant(Dist + " " + DistUnit)})
-        Fet_Gs.setAttributes([Dist + " " + DistUnit])
+        Fet_Gs.setAttributes([Dist + " " + DistUnit, Bearing])
         dP_Gs.addFeatures([Fet_Gs])
         
         Vl_Gs.updateExtents()
@@ -647,11 +668,19 @@ class GeoSearchDialog(QtGui.QDialog):
     
     def DistUnit_cB_CurrIdxChanged(self, CurrIdx):
         try:
-            self.UpdateDistAtDistUnit(self.Dist)
+            self.UpdateDistInfo(self.Dist, self.Bearing)
        
         except:
             return
-    
+        
+        
+    def BearingUnit_cB_CurrIdxChanged(self, CurrIdx):
+        try:
+            self.UpdateDistInfo(self.Dist, self.Bearing)
+       
+        except:
+            return
+            
 
     #Route
     def Route_GoToGetCoorFromMapCanvasMode(self):
@@ -839,6 +868,15 @@ class GeoSearchDialog(QtGui.QDialog):
         self.mapCanvas.zoomToSelected(Vl_Gs_S)
         self.mapCanvas.zoomOut()
         
+        
+class Bearing():
+    def __init__(self, QgsPt_A, QgsPt_B, srsid):
+        DA = QgsDistanceArea()
+        DA.setSourceCrs(srsid)
+
+        self.radian = DA.bearing(QgsPt_A, QgsPt_B)
+        self.degree = QgsPt_A.azimuth(QgsPt_B)
+            
     
 #Modified from GeoCoding\Utils.py
 def CoorTransformByCrsId(point, crs_id_src, crs_id_des):

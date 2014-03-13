@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\ui_geosearch.ui'
 #
-# Created: Wed Feb 19 13:19:37 2014
+# Created: Thu Mar 13 15:40:32 2014
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -164,6 +164,15 @@ class Ui_GeoSearch(object):
         self.DistUnit_comboBox = QtGui.QComboBox(self.Distance_tab)
         self.DistUnit_comboBox.setGeometry(QtCore.QRect(340, 190, 111, 22))
         self.DistUnit_comboBox.setObjectName(_fromUtf8("DistUnit_comboBox"))
+        self.Bearing_label = QtGui.QLabel(self.Distance_tab)
+        self.Bearing_label.setGeometry(QtCore.QRect(140, 220, 46, 20))
+        self.Bearing_label.setObjectName(_fromUtf8("Bearing_label"))
+        self.Bearing_lineEdit = QtGui.QLineEdit(self.Distance_tab)
+        self.Bearing_lineEdit.setGeometry(QtCore.QRect(190, 220, 141, 20))
+        self.Bearing_lineEdit.setObjectName(_fromUtf8("Bearing_lineEdit"))
+        self.BearingUnit_comboBox = QtGui.QComboBox(self.Distance_tab)
+        self.BearingUnit_comboBox.setGeometry(QtCore.QRect(340, 220, 111, 22))
+        self.BearingUnit_comboBox.setObjectName(_fromUtf8("BearingUnit_comboBox"))
         self.FeatureOption_tabWidget.addTab(self.Distance_tab, _fromUtf8(""))
         self.tab = QtGui.QWidget()
         self.tab.setObjectName(_fromUtf8("tab"))
@@ -248,6 +257,7 @@ class Ui_GeoSearch(object):
         self.PtB_label.setText(QtGui.QApplication.translate("GeoSearch", "Point B:", None, QtGui.QApplication.UnicodeUTF8))
         self.Dist_PtB_GoToGetCoorFromMapCanvasMode_pushButton.setText(QtGui.QApplication.translate("GeoSearch", "From Map...", None, QtGui.QApplication.UnicodeUTF8))
         self.Dist_label.setText(QtGui.QApplication.translate("GeoSearch", "Distance:", None, QtGui.QApplication.UnicodeUTF8))
+        self.Bearing_label.setText(QtGui.QApplication.translate("GeoSearch", "Bearing:", None, QtGui.QApplication.UnicodeUTF8))
         self.FeatureOption_tabWidget.setTabText(self.FeatureOption_tabWidget.indexOf(self.Distance_tab), QtGui.QApplication.translate("GeoSearch", "Distance", None, QtGui.QApplication.UnicodeUTF8))
         self.RoutePointsFmt_label.setText(QtGui.QApplication.translate("GeoSearch", "Latitude, Longitude", None, QtGui.QApplication.UnicodeUTF8))
         self.RoutePoints_label.setText(QtGui.QApplication.translate("GeoSearch", "Route Points", None, QtGui.QApplication.UnicodeUTF8))
