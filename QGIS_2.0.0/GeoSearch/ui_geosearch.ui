@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>550</width>
-    <height>489</height>
+    <width>587</width>
+    <height>508</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>541</width>
-     <height>481</height>
+     <width>581</width>
+     <height>500</height>
     </rect>
    </property>
    <property name="currentIndex">
@@ -34,8 +34,8 @@
       <rect>
        <x>190</x>
        <y>60</y>
-       <width>46</width>
-       <height>13</height>
+       <width>51</width>
+       <height>16</height>
       </rect>
      </property>
      <property name="text">
@@ -47,7 +47,7 @@
       <rect>
        <x>290</x>
        <y>60</y>
-       <width>51</width>
+       <width>61</width>
        <height>16</height>
       </rect>
      </property>
@@ -58,9 +58,9 @@
     <widget class="QCheckBox" name="ExactOneResult_checkBox">
      <property name="geometry">
       <rect>
-       <x>250</x>
+       <x>380</x>
        <y>110</y>
-       <width>111</width>
+       <width>131</width>
        <height>17</height>
       </rect>
      </property>
@@ -89,8 +89,8 @@
       <rect>
        <x>50</x>
        <y>60</y>
-       <width>46</width>
-       <height>13</height>
+       <width>61</width>
+       <height>16</height>
       </rect>
      </property>
      <property name="text">
@@ -102,9 +102,14 @@
       <rect>
        <x>380</x>
        <y>80</y>
-       <width>71</width>
+       <width>91</width>
        <height>23</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <stylestrategy>PreferAntialias</stylestrategy>
+      </font>
      </property>
      <property name="text">
       <string>From Map...</string>
@@ -163,7 +168,7 @@
     <widget class="QPushButton" name="SearchByPt_pushButton">
      <property name="geometry">
       <rect>
-       <x>460</x>
+       <x>480</x>
        <y>80</y>
        <width>71</width>
        <height>23</height>
@@ -191,8 +196,8 @@
       <rect>
        <x>50</x>
        <y>10</y>
-       <width>46</width>
-       <height>13</height>
+       <width>61</width>
+       <height>16</height>
       </rect>
      </property>
      <property name="text">
@@ -204,7 +209,7 @@
       <rect>
        <x>240</x>
        <y>160</y>
-       <width>41</width>
+       <width>51</width>
        <height>20</height>
       </rect>
      </property>
@@ -220,7 +225,7 @@
     <widget class="QTabWidget" name="Result_tabWidget">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>30</x>
        <y>170</y>
        <width>511</width>
        <height>281</height>
@@ -238,7 +243,7 @@
         <rect>
          <x>10</x>
          <y>30</y>
-         <width>171</width>
+         <width>221</width>
          <height>16</height>
         </rect>
        </property>
@@ -292,9 +297,9 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>370</x>
-       <y>110</y>
-       <width>161</width>
+       <x>380</x>
+       <y>150</y>
+       <width>191</width>
        <height>20</height>
       </rect>
      </property>
@@ -311,9 +316,9 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>250</x>
+       <x>380</x>
        <y>130</y>
-       <width>111</width>
+       <width>131</width>
        <height>20</height>
       </rect>
      </property>
@@ -363,7 +368,7 @@
       <rect>
        <x>350</x>
        <y>90</y>
-       <width>71</width>
+       <width>91</width>
        <height>23</height>
       </rect>
      </property>
@@ -376,8 +381,8 @@
       <rect>
        <x>160</x>
        <y>70</y>
-       <width>46</width>
-       <height>13</height>
+       <width>51</width>
+       <height>16</height>
       </rect>
      </property>
      <property name="text">
@@ -389,7 +394,7 @@
       <rect>
        <x>260</x>
        <y>70</y>
-       <width>51</width>
+       <width>61</width>
        <height>16</height>
       </rect>
      </property>
@@ -422,8 +427,8 @@
       <rect>
        <x>170</x>
        <y>10</y>
-       <width>46</width>
-       <height>13</height>
+       <width>51</width>
+       <height>16</height>
       </rect>
      </property>
      <property name="text">
@@ -443,14 +448,17 @@
     <widget class="QLabel" name="VincentyElliModel_label">
      <property name="geometry">
       <rect>
-       <x>290</x>
+       <x>280</x>
        <y>10</y>
-       <width>141</width>
+       <width>170</width>
        <height>20</height>
       </rect>
      </property>
      <property name="text">
       <string>Vincenty Ellipsoidal Model</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QComboBox" name="VctElliModel_comboBox">
@@ -458,7 +466,7 @@
       <rect>
        <x>280</x>
        <y>30</y>
-       <width>141</width>
+       <width>161</width>
        <height>22</height>
       </rect>
      </property>
@@ -466,14 +474,17 @@
     <widget class="QLabel" name="PtA_label">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>75</x>
        <y>90</y>
-       <width>46</width>
+       <width>51</width>
        <height>20</height>
       </rect>
      </property>
      <property name="text">
       <string>Point A:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
     <widget class="QLineEdit" name="Dist_PtB_Latitude_lineEdit">
@@ -489,14 +500,17 @@
     <widget class="QLabel" name="PtB_label">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>75</x>
        <y>120</y>
-       <width>46</width>
+       <width>51</width>
        <height>20</height>
       </rect>
      </property>
      <property name="text">
       <string>Point B:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
     <widget class="QLineEdit" name="Dist_PtB_Longitude_lineEdit">
@@ -514,7 +528,7 @@
       <rect>
        <x>350</x>
        <y>120</y>
-       <width>71</width>
+       <width>91</width>
        <height>23</height>
       </rect>
      </property>
@@ -535,14 +549,17 @@
     <widget class="QLabel" name="Dist_label">
      <property name="geometry">
       <rect>
-       <x>140</x>
+       <x>135</x>
        <y>190</y>
-       <width>46</width>
+       <width>51</width>
        <height>20</height>
       </rect>
      </property>
      <property name="text">
       <string>Distance:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
     <widget class="QComboBox" name="DistUnit_comboBox">
@@ -558,14 +575,17 @@
     <widget class="QLabel" name="Bearing_label">
      <property name="geometry">
       <rect>
-       <x>140</x>
+       <x>135</x>
        <y>220</y>
-       <width>46</width>
+       <width>51</width>
        <height>20</height>
       </rect>
      </property>
      <property name="text">
       <string>Bearing:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
     <widget class="QLineEdit" name="Bearing_lineEdit">
@@ -641,8 +661,8 @@
      <property name="geometry">
       <rect>
        <x>360</x>
-       <y>160</y>
-       <width>71</width>
+       <y>170</y>
+       <width>91</width>
        <height>23</height>
       </rect>
      </property>
@@ -653,7 +673,7 @@
     <widget class="QComboBox" name="Route_TravelMode_comboBox">
      <property name="geometry">
       <rect>
-       <x>410</x>
+       <x>440</x>
        <y>50</y>
        <width>111</width>
        <height>22</height>
@@ -663,10 +683,10 @@
     <widget class="QLabel" name="TravelMode_label">
      <property name="geometry">
       <rect>
-       <x>340</x>
+       <x>350</x>
        <y>53</y>
-       <width>61</width>
-       <height>16</height>
+       <width>81</width>
+       <height>20</height>
       </rect>
      </property>
      <property name="text">
@@ -679,7 +699,7 @@
     <widget class="QComboBox" name="Route_Avoid_comboBox">
      <property name="geometry">
       <rect>
-       <x>410</x>
+       <x>440</x>
        <y>80</y>
        <width>111</width>
        <height>22</height>
@@ -689,7 +709,7 @@
     <widget class="QLabel" name="Avoid_label">
      <property name="geometry">
       <rect>
-       <x>340</x>
+       <x>370</x>
        <y>82</y>
        <width>61</width>
        <height>16</height>
@@ -705,10 +725,10 @@
     <widget class="QLabel" name="Route_DistUnit_label">
      <property name="geometry">
       <rect>
-       <x>330</x>
+       <x>340</x>
        <y>113</y>
-       <width>71</width>
-       <height>16</height>
+       <width>91</width>
+       <height>20</height>
       </rect>
      </property>
      <property name="text">
@@ -721,7 +741,7 @@
     <widget class="QComboBox" name="Route_DistUnit_comboBox">
      <property name="geometry">
       <rect>
-       <x>410</x>
+       <x>440</x>
        <y>110</y>
        <width>111</width>
        <height>22</height>
@@ -731,8 +751,8 @@
     <widget class="QPushButton" name="SearchRoute_pushButton">
      <property name="geometry">
       <rect>
-       <x>440</x>
-       <y>160</y>
+       <x>470</x>
+       <y>170</y>
        <width>71</width>
        <height>23</height>
       </rect>
@@ -746,7 +766,7 @@
       <rect>
        <x>350</x>
        <y>140</y>
-       <width>161</width>
+       <width>201</width>
        <height>20</height>
       </rect>
      </property>
