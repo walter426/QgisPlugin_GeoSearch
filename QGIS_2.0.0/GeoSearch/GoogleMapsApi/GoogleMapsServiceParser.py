@@ -125,7 +125,7 @@ class ServiceParser:
         return results
             
             
-    def check_status(status):
+    def check_status(self, status):
         '''Validates error statuses.'''
         if status == 'ZERO_RESULTS':
             raise GoogleServiceResultError(

@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file '.\ui_geosearch.ui'
 #
-# Created: Sun Mar 23 23:32:04 2014
-#      by: PyQt4 UI code generator 4.9.4
+# Created: Mon Jul 21 17:14:30 2014
+#      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -181,11 +181,16 @@ class Ui_GeoSearch(object):
         self.BearingUnit_comboBox = QtGui.QComboBox(self.Distance_tab)
         self.BearingUnit_comboBox.setGeometry(QtCore.QRect(340, 220, 111, 22))
         self.BearingUnit_comboBox.setObjectName(_fromUtf8("BearingUnit_comboBox"))
+        self.BearingIsPositiveOnly_checkBox = QtGui.QCheckBox(self.Distance_tab)
+        self.BearingIsPositiveOnly_checkBox.setEnabled(True)
+        self.BearingIsPositiveOnly_checkBox.setGeometry(QtCore.QRect(460, 220, 101, 20))
+        self.BearingIsPositiveOnly_checkBox.setChecked(False)
+        self.BearingIsPositiveOnly_checkBox.setObjectName(_fromUtf8("BearingIsPositiveOnly_checkBox"))
         self.FeatureOption_tabWidget.addTab(self.Distance_tab, _fromUtf8(""))
         self.tab = QtGui.QWidget()
         self.tab.setObjectName(_fromUtf8("tab"))
         self.RoutePoints_textEdit = QtGui.QTextEdit(self.tab)
-        self.RoutePoints_textEdit.setGeometry(QtCore.QRect(10, 50, 321, 141))
+        self.RoutePoints_textEdit.setGeometry(QtCore.QRect(10, 50, 321, 171))
         self.RoutePoints_textEdit.setObjectName(_fromUtf8("RoutePoints_textEdit"))
         self.RoutePointsFmt_label = QtGui.QLabel(self.tab)
         self.RoutePointsFmt_label.setGeometry(QtCore.QRect(40, 30, 261, 20))
@@ -198,7 +203,7 @@ class Ui_GeoSearch(object):
         self.RoutePoints_label.setFont(font)
         self.RoutePoints_label.setObjectName(_fromUtf8("RoutePoints_label"))
         self.Route_GoToGetCoorFromMapCanvasMode_pushButton = QtGui.QPushButton(self.tab)
-        self.Route_GoToGetCoorFromMapCanvasMode_pushButton.setGeometry(QtCore.QRect(360, 170, 91, 23))
+        self.Route_GoToGetCoorFromMapCanvasMode_pushButton.setGeometry(QtCore.QRect(360, 180, 91, 23))
         self.Route_GoToGetCoorFromMapCanvasMode_pushButton.setObjectName(_fromUtf8("Route_GoToGetCoorFromMapCanvasMode_pushButton"))
         self.Route_TravelMode_comboBox = QtGui.QComboBox(self.tab)
         self.Route_TravelMode_comboBox.setGeometry(QtCore.QRect(440, 50, 111, 22))
@@ -222,12 +227,16 @@ class Ui_GeoSearch(object):
         self.Route_DistUnit_comboBox.setGeometry(QtCore.QRect(440, 110, 111, 22))
         self.Route_DistUnit_comboBox.setObjectName(_fromUtf8("Route_DistUnit_comboBox"))
         self.SearchRoute_pushButton = QtGui.QPushButton(self.tab)
-        self.SearchRoute_pushButton.setGeometry(QtCore.QRect(470, 170, 71, 23))
+        self.SearchRoute_pushButton.setGeometry(QtCore.QRect(470, 180, 71, 23))
         self.SearchRoute_pushButton.setObjectName(_fromUtf8("SearchRoute_pushButton"))
         self.Route_CoorSelection_label = QtGui.QLabel(self.tab)
-        self.Route_CoorSelection_label.setGeometry(QtCore.QRect(350, 140, 201, 20))
+        self.Route_CoorSelection_label.setGeometry(QtCore.QRect(350, 150, 201, 20))
         self.Route_CoorSelection_label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.Route_CoorSelection_label.setObjectName(_fromUtf8("Route_CoorSelection_label"))
+        self.RoutePointsFmt_2_label = QtGui.QLabel(self.tab)
+        self.RoutePointsFmt_2_label.setGeometry(QtCore.QRect(10, 230, 321, 20))
+        self.RoutePointsFmt_2_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.RoutePointsFmt_2_label.setObjectName(_fromUtf8("RoutePointsFmt_2_label"))
         self.FeatureOption_tabWidget.addTab(self.tab, _fromUtf8(""))
 
         self.retranslateUi(GeoSearch)
@@ -266,8 +275,9 @@ class Ui_GeoSearch(object):
         self.Dist_PtB_GoToGetCoorFromMapCanvasMode_pushButton.setText(QtGui.QApplication.translate("GeoSearch", "From Map...", None, QtGui.QApplication.UnicodeUTF8))
         self.Dist_label.setText(QtGui.QApplication.translate("GeoSearch", "Distance:", None, QtGui.QApplication.UnicodeUTF8))
         self.Bearing_label.setText(QtGui.QApplication.translate("GeoSearch", "Bearing:", None, QtGui.QApplication.UnicodeUTF8))
+        self.BearingIsPositiveOnly_checkBox.setText(QtGui.QApplication.translate("GeoSearch", "+ve only", None, QtGui.QApplication.UnicodeUTF8))
         self.FeatureOption_tabWidget.setTabText(self.FeatureOption_tabWidget.indexOf(self.Distance_tab), QtGui.QApplication.translate("GeoSearch", "Distance", None, QtGui.QApplication.UnicodeUTF8))
-        self.RoutePointsFmt_label.setText(QtGui.QApplication.translate("GeoSearch", "Latitude, Longitude", None, QtGui.QApplication.UnicodeUTF8))
+        self.RoutePointsFmt_label.setText(QtGui.QApplication.translate("GeoSearch", "(Latitude, Longitude)/Address", None, QtGui.QApplication.UnicodeUTF8))
         self.RoutePoints_label.setText(QtGui.QApplication.translate("GeoSearch", "Route Points", None, QtGui.QApplication.UnicodeUTF8))
         self.Route_GoToGetCoorFromMapCanvasMode_pushButton.setText(QtGui.QApplication.translate("GeoSearch", "From Map...", None, QtGui.QApplication.UnicodeUTF8))
         self.TravelMode_label.setText(QtGui.QApplication.translate("GeoSearch", "Travel Mode:", None, QtGui.QApplication.UnicodeUTF8))
@@ -275,5 +285,6 @@ class Ui_GeoSearch(object):
         self.Route_DistUnit_label.setText(QtGui.QApplication.translate("GeoSearch", "Distance Unit:", None, QtGui.QApplication.UnicodeUTF8))
         self.SearchRoute_pushButton.setText(QtGui.QApplication.translate("GeoSearch", "Search ", None, QtGui.QApplication.UnicodeUTF8))
         self.Route_CoorSelection_label.setText(QtGui.QApplication.translate("GeoSearch", "Right Click to exit points selection", None, QtGui.QApplication.UnicodeUTF8))
+        self.RoutePointsFmt_2_label.setText(QtGui.QApplication.translate("GeoSearch", "Point and Address can be searched togather", None, QtGui.QApplication.UnicodeUTF8))
         self.FeatureOption_tabWidget.setTabText(self.FeatureOption_tabWidget.indexOf(self.tab), QtGui.QApplication.translate("GeoSearch", "Route", None, QtGui.QApplication.UnicodeUTF8))
 

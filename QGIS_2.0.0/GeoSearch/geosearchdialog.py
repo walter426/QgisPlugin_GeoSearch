@@ -127,6 +127,7 @@ class GeoSearchDialog(QtGui.QDialog):
         self.ui.BearingUnit_comboBox.setCurrentIndex(0)
         
         self.connect(self.ui.BearingUnit_comboBox, SIGNAL("currentIndexChanged (int)"), self.BearingUnit_cB_CurrIdxChanged)
+        self.connect(self.ui.BearingIsPositiveOnly_checkBox, SIGNAL("clicked()"), self.BearingIsPositiveOnly_checkBox_clicked)
 
         
         #Feature Setup - Route
@@ -545,7 +546,7 @@ class GeoSearchDialog(QtGui.QDialog):
         try:
             Dist = str(self.GetDistAtDistUnit(objDist, self.ui.DistUnit_comboBox.currentText()))
             self.ui.Dist_lineEdit.setText(Dist)
-            Bearing = str(self.GetBearingAtBearingUnit(objBearing, self.ui.BearingUnit_comboBox.currentText()))
+            Bearing = str(self.GetBearingAtBearingUnit(objBearing, self.ui.BearingUnit_comboBox.currentText(), self.ui.BearingIsPositiveOnly_checkBox.isChecked()))
             self.ui.Bearing_lineEdit.setText(Bearing)
             self.CreateVectorLayerGeoSearch_Dist(self.PtA, self.PtB, Dist, self.ui.DistUnit_comboBox.currentText(), Bearing)
             
@@ -573,15 +574,26 @@ class GeoSearchDialog(QtGui.QDialog):
             return
             
             
-    def GetBearingAtBearingUnit(self, Bearing, BearingUnit):
+    def GetBearingAtBearingUnit(self, Bearing, BearingUnit, BearingIsPositiveOnly):
         if BearingUnit == "degree":
-            return Bearing.degree
+            angle = Bearing.degree
 
         elif BearingUnit == "radian":
-            return Bearing.radian
+            angle = Bearing.radian
         
         else:
             return
+            
+            
+        if BearingIsPositiveOnly == True and angle < 0:
+            if BearingUnit == "degree":
+                angle = 360 + angle
+
+            elif BearingUnit == "radian":
+                from math import *
+                angle = 2*pi + angle
+        
+        return angle
             
             
     def CreateVectorLayerGeoSearch_Dist(self, PtA, PtB, Dist, DistUnit, Bearing):
@@ -681,7 +693,13 @@ class GeoSearchDialog(QtGui.QDialog):
         except:
             return
             
-
+    def BearingIsPositiveOnly_checkBox_clicked(self):
+        try:
+            self.UpdateDistInfo(self.Dist, self.Bearing)
+       
+        except:
+            return
+    
     #Route
     def Route_GoToGetCoorFromMapCanvasMode(self):
         self.ui.RoutePoints_textEdit.clear()
@@ -718,9 +736,11 @@ class GeoSearchDialog(QtGui.QDialog):
             for j in range(len(RoutePtSet[i])):
                 RoutePtSet[i][j] = RoutePtSet[i][j].strip()
                 
-                
-        result = self.SearchRoute(RoutePtSet, self.ui.Route_TravelMode_comboBox.currentText(), self.ui.Route_Avoid_comboBox.currentText(), self.ui.Route_DistUnit_comboBox.currentText())
-        
+        try:        
+            result = self.SearchRoute(RoutePtSet, self.ui.Route_TravelMode_comboBox.currentText(), self.ui.Route_Avoid_comboBox.currentText(), self.ui.Route_DistUnit_comboBox.currentText())
+        except:
+            pass
+            
         #self.ui.Route_SearchStatus_label.setText("Result")
         
     

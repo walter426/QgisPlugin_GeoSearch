@@ -608,6 +608,25 @@
       </rect>
      </property>
     </widget>
+    <widget class="QCheckBox" name="BearingIsPositiveOnly_checkBox">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>460</x>
+       <y>220</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>+ve only</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -619,7 +638,7 @@
        <x>10</x>
        <y>50</y>
        <width>321</width>
-       <height>141</height>
+       <height>171</height>
       </rect>
      </property>
     </widget>
@@ -633,7 +652,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Latitude, Longitude</string>
+      <string>(Latitude, Longitude)/Address</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -661,7 +680,7 @@
      <property name="geometry">
       <rect>
        <x>360</x>
-       <y>170</y>
+       <y>180</y>
        <width>91</width>
        <height>23</height>
       </rect>
@@ -752,7 +771,7 @@
      <property name="geometry">
       <rect>
        <x>470</x>
-       <y>170</y>
+       <y>180</y>
        <width>71</width>
        <height>23</height>
       </rect>
@@ -765,7 +784,7 @@
      <property name="geometry">
       <rect>
        <x>350</x>
-       <y>140</y>
+       <y>150</y>
        <width>201</width>
        <height>20</height>
       </rect>
@@ -775,6 +794,22 @@
      </property>
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="RoutePointsFmt_2_label">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>230</y>
+       <width>321</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Point and Address can be searched togather</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </widget>
