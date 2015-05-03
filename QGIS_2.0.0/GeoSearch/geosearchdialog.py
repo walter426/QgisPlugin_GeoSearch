@@ -894,7 +894,7 @@ class Bearing():
 	def __init__(self, QgsPt_A, QgsPt_B, srsid):
 		'''
 		20150502, walter_tsui
-		Paul Stanley(pslat@eircom.net) reported the bearing calculated from QGIS API is wrong
+		Paul Slattery(pslat@eircom.net) reported the bearing calculated from QGIS API is wrong
 		
 		DA = QgsDistanceArea()
 		DA.setSourceCrs(srsid)
@@ -903,17 +903,18 @@ class Bearing():
 		self.degree = math.degrees(initial_bearing)
 		'''
 		
+		#SImple Pythagoras’ theorem
 		lat_A = math.radians(QgsPt_A.y())
 		lat_B = math.radians(QgsPt_B.y())
  
-		LonDiff = math.radians(QgsPt_A.x() - QgsPt_B.x())
+		LonDiff = math.radians(QgsPt_B.x() - QgsPt_A.x())
 	 
 		x = math.sin(LonDiff) * math.cos(lat_B)
 		y = math.cos(lat_A) * math.sin(lat_B) - (math.sin(lat_A) * math.cos(lat_B) * math.cos(LonDiff))
 	 
 		self.radian = math.atan2(x, y)
 		self.degree = math.degrees(self.radian)
-			
+		
 	
 #Modified from GeoCoding\Utils.py
 def CoorTransformByCrsId(point, crs_id_src, crs_id_des):
