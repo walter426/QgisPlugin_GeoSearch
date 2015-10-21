@@ -60,6 +60,7 @@ class GeoSearchDialog(QtGui.QDialog):
 		self.ui.Geocoder_Addr_comboBox.setCurrentIndex(0)
 		
 		self.ui.Addr_lineEdit.setFocus()
+		self.connect(self.ui.Addr_lineEdit, SIGNAL("returnPressed()"), self.SearchByAddr_ButtonHandler);
 		self.connect(self.ui.SearchByAddr_pushButton, SIGNAL("clicked()"), self.SearchByAddr_ButtonHandler)
 		
 		
@@ -67,6 +68,8 @@ class GeoSearchDialog(QtGui.QDialog):
 		self.ui.Geocoder_Pt_comboBox.addItems(["GoogleV3"])
 		self.ui.Geocoder_Pt_comboBox.setCurrentIndex(0)
 		
+		self.connect(self.ui.Latitude_lineEdit, SIGNAL("returnPressed()"), self.SearchByPt_ButtonHandler);
+		self.connect(self.ui.Longitude_lineEdit, SIGNAL("returnPressed()"), self.SearchByPt_ButtonHandler);
 		self.connect(self.ui.SearchByPt_pushButton, SIGNAL("clicked()"), self.SearchByPt_ButtonHandler)
 		
 		#Emit Point Tool
@@ -112,6 +115,10 @@ class GeoSearchDialog(QtGui.QDialog):
 		self.connect(self.ui.Dist_PtB_GoToGetCoorFromMapCanvasMode_pushButton, SIGNAL("clicked()"), self.Dist_PtB_GoToGetCoorFromMapCanvasMode)
 
 		#Calculate button
+		self.connect(self.ui.Dist_PtA_Latitude_lineEdit, SIGNAL("returnPressed()"), self.CalculateDist_ButtonHandler);
+		self.connect(self.ui.Dist_PtA_Longitude_lineEdit, SIGNAL("returnPressed()"), self.CalculateDist_ButtonHandler);
+		self.connect(self.ui.Dist_PtB_Latitude_lineEdit, SIGNAL("returnPressed()"), self.CalculateDist_ButtonHandler);
+		self.connect(self.ui.Dist_PtB_Longitude_lineEdit, SIGNAL("returnPressed()"), self.CalculateDist_ButtonHandler);
 		self.connect(self.ui.CalculateDist_pushButton, SIGNAL("clicked()"), self.CalculateDist_ButtonHandler)
 		#}
 		
@@ -138,6 +145,7 @@ class GeoSearchDialog(QtGui.QDialog):
 		self.ui.Route_DistUnit_comboBox.addItems(["metric", "imperial"])
 		
 		self.connect(self.ui.Route_GoToGetCoorFromMapCanvasMode_pushButton, SIGNAL("clicked()"), self.Route_GoToGetCoorFromMapCanvasMode)
+		self.connect(self.ui.RoutePoints_textEdit, SIGNAL("returnPressed()"), self.SearchRoute_ButtonHandler);
 		self.connect(self.ui.SearchRoute_pushButton, SIGNAL("clicked()"), self.SearchRoute_ButtonHandler)
 
 		#}
@@ -514,6 +522,14 @@ class GeoSearchDialog(QtGui.QDialog):
 		PtA = (str(self.ui.Dist_PtA_Latitude_lineEdit.text()), str(self.ui.Dist_PtA_Longitude_lineEdit.text()))
 		PtB = (str(self.ui.Dist_PtB_Latitude_lineEdit.text()), str(self.ui.Dist_PtB_Longitude_lineEdit.text()))
 		
+		try:
+			float(PtA[0])
+			float(PtA[1])
+			float(PtB[0])
+			float(PtB[1])
+		except:
+			return
+		
 		self.PtA = PtA
 		self.PtB = PtB
 		
@@ -871,7 +887,7 @@ class GeoSearchDialog(QtGui.QDialog):
 		
 		for feat in FetSet:
 			FetIdList.append(feat.id())
-
+		
 		#QMessageBox.information(None, "Error", str(feat.id()))
 		#Symbol Setup
 		#{  
