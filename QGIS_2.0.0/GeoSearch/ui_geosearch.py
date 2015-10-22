@@ -2,8 +2,7 @@
 
 # Form implementation generated from reading ui file '.\ui_geosearch.ui'
 #
-# Created: Mon Jul 21 17:14:30 2014
-#      by: PyQt4 UI code generator 4.9.1
+# Created by: PyQt4 UI code generator 4.11.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,7 +11,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_GeoSearch(object):
     def setupUi(self, GeoSearch):
@@ -243,48 +251,82 @@ class Ui_GeoSearch(object):
         self.FeatureOption_tabWidget.setCurrentIndex(0)
         self.Result_tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(GeoSearch)
+        GeoSearch.setTabOrder(self.Addr_lineEdit, self.SearchByAddr_pushButton)
+        GeoSearch.setTabOrder(self.SearchByAddr_pushButton, self.Geocoder_Addr_comboBox)
+        GeoSearch.setTabOrder(self.Geocoder_Addr_comboBox, self.Latitude_lineEdit)
+        GeoSearch.setTabOrder(self.Latitude_lineEdit, self.Longitude_lineEdit)
+        GeoSearch.setTabOrder(self.Longitude_lineEdit, self.SearchByPt_pushButton)
+        GeoSearch.setTabOrder(self.SearchByPt_pushButton, self.Geocoder_Pt_comboBox)
+        GeoSearch.setTabOrder(self.Geocoder_Pt_comboBox, self.GoToGetCoorFromMapCanvasMode_pushButton)
+        GeoSearch.setTabOrder(self.GoToGetCoorFromMapCanvasMode_pushButton, self.ExactOneResult_checkBox)
+        GeoSearch.setTabOrder(self.ExactOneResult_checkBox, self.ObtainElevation_checkBox)
+        GeoSearch.setTabOrder(self.ObtainElevation_checkBox, self.SearchOnGoogleWebMap_checkBox)
+        GeoSearch.setTabOrder(self.SearchOnGoogleWebMap_checkBox, self.Result_tabWidget)
+        GeoSearch.setTabOrder(self.Result_tabWidget, self.Result_listWidget)
+        GeoSearch.setTabOrder(self.Result_listWidget, self.FeatureOption_tabWidget)
+        GeoSearch.setTabOrder(self.FeatureOption_tabWidget, self.DistFomula_comboBox)
+        GeoSearch.setTabOrder(self.DistFomula_comboBox, self.VctElliModel_comboBox)
+        GeoSearch.setTabOrder(self.VctElliModel_comboBox, self.Dist_PtA_Latitude_lineEdit)
+        GeoSearch.setTabOrder(self.Dist_PtA_Latitude_lineEdit, self.Dist_PtA_Longitude_lineEdit)
+        GeoSearch.setTabOrder(self.Dist_PtA_Longitude_lineEdit, self.Dist_PtA_GoToGetCoorFromMapCanvasMode_pushButton)
+        GeoSearch.setTabOrder(self.Dist_PtA_GoToGetCoorFromMapCanvasMode_pushButton, self.Dist_PtB_Latitude_lineEdit)
+        GeoSearch.setTabOrder(self.Dist_PtB_Latitude_lineEdit, self.Dist_PtB_Longitude_lineEdit)
+        GeoSearch.setTabOrder(self.Dist_PtB_Longitude_lineEdit, self.Dist_PtB_GoToGetCoorFromMapCanvasMode_pushButton)
+        GeoSearch.setTabOrder(self.Dist_PtB_GoToGetCoorFromMapCanvasMode_pushButton, self.CalculateDist_pushButton)
+        GeoSearch.setTabOrder(self.CalculateDist_pushButton, self.Dist_lineEdit)
+        GeoSearch.setTabOrder(self.Dist_lineEdit, self.DistUnit_comboBox)
+        GeoSearch.setTabOrder(self.DistUnit_comboBox, self.Bearing_lineEdit)
+        GeoSearch.setTabOrder(self.Bearing_lineEdit, self.BearingUnit_comboBox)
+        GeoSearch.setTabOrder(self.BearingUnit_comboBox, self.BearingIsPositiveOnly_checkBox)
+        GeoSearch.setTabOrder(self.BearingIsPositiveOnly_checkBox, self.RoutePoints_textEdit)
+        GeoSearch.setTabOrder(self.RoutePoints_textEdit, self.Route_GoToGetCoorFromMapCanvasMode_pushButton)
+        GeoSearch.setTabOrder(self.Route_GoToGetCoorFromMapCanvasMode_pushButton, self.Route_TravelMode_comboBox)
+        GeoSearch.setTabOrder(self.Route_TravelMode_comboBox, self.Route_Avoid_comboBox)
+        GeoSearch.setTabOrder(self.Route_Avoid_comboBox, self.Route_DistUnit_comboBox)
+        GeoSearch.setTabOrder(self.Route_DistUnit_comboBox, self.SearchRoute_pushButton)
+        GeoSearch.setTabOrder(self.SearchRoute_pushButton, self.Result_textEdit)
 
     def retranslateUi(self, GeoSearch):
-        GeoSearch.setWindowTitle(QtGui.QApplication.translate("GeoSearch", "GeoSearch", None, QtGui.QApplication.UnicodeUTF8))
-        self.latitude_label.setText(QtGui.QApplication.translate("GeoSearch", "Latitude", None, QtGui.QApplication.UnicodeUTF8))
-        self.Longitude_label.setText(QtGui.QApplication.translate("GeoSearch", "Longitude", None, QtGui.QApplication.UnicodeUTF8))
-        self.ExactOneResult_checkBox.setText(QtGui.QApplication.translate("GeoSearch", "Exact One Result", None, QtGui.QApplication.UnicodeUTF8))
-        self.SearchByAddr_pushButton.setText(QtGui.QApplication.translate("GeoSearch", "Search ", None, QtGui.QApplication.UnicodeUTF8))
-        self.Geocoder_Addr_label_2.setText(QtGui.QApplication.translate("GeoSearch", "Geocoder", None, QtGui.QApplication.UnicodeUTF8))
-        self.GoToGetCoorFromMapCanvasMode_pushButton.setText(QtGui.QApplication.translate("GeoSearch", "From Map...", None, QtGui.QApplication.UnicodeUTF8))
-        self.SearchByPt_pushButton.setText(QtGui.QApplication.translate("GeoSearch", "Search ", None, QtGui.QApplication.UnicodeUTF8))
-        self.Address_label.setText(QtGui.QApplication.translate("GeoSearch", "Address", None, QtGui.QApplication.UnicodeUTF8))
-        self.Geocoder_Addr_label.setText(QtGui.QApplication.translate("GeoSearch", "Geocoder", None, QtGui.QApplication.UnicodeUTF8))
-        self.SearchStatus_label.setText(QtGui.QApplication.translate("GeoSearch", "Result", None, QtGui.QApplication.UnicodeUTF8))
-        self.Result_List_label.setText(QtGui.QApplication.translate("GeoSearch", "Double Click below items to zoom in", None, QtGui.QApplication.UnicodeUTF8))
-        self.Result_tabWidget.setTabText(self.Result_tabWidget.indexOf(self.List_tab), QtGui.QApplication.translate("GeoSearch", "List", None, QtGui.QApplication.UnicodeUTF8))
-        self.Result_List_label_2.setText(QtGui.QApplication.translate("GeoSearch", "For direct copy", None, QtGui.QApplication.UnicodeUTF8))
-        self.Result_tabWidget.setTabText(self.Result_tabWidget.indexOf(self.Text_tab), QtGui.QApplication.translate("GeoSearch", "Text", None, QtGui.QApplication.UnicodeUTF8))
-        self.SearchOnGoogleWebMap_checkBox.setText(QtGui.QApplication.translate("GeoSearch", "Search On Google Web Map", None, QtGui.QApplication.UnicodeUTF8))
-        self.ObtainElevation_checkBox.setText(QtGui.QApplication.translate("GeoSearch", "Obtain Elevation", None, QtGui.QApplication.UnicodeUTF8))
-        self.ResultFmt_label.setText(QtGui.QApplication.translate("GeoSearch", "(Place, (Latitude, Longitude))", None, QtGui.QApplication.UnicodeUTF8))
-        self.FeatureOption_tabWidget.setTabText(self.FeatureOption_tabWidget.indexOf(self.Pt_tab), QtGui.QApplication.translate("GeoSearch", "Point", None, QtGui.QApplication.UnicodeUTF8))
-        self.CalculateDist_pushButton.setText(QtGui.QApplication.translate("GeoSearch", "Calculate", None, QtGui.QApplication.UnicodeUTF8))
-        self.Dist_PtA_GoToGetCoorFromMapCanvasMode_pushButton.setText(QtGui.QApplication.translate("GeoSearch", "From Map...", None, QtGui.QApplication.UnicodeUTF8))
-        self.Dist_latitude_label.setText(QtGui.QApplication.translate("GeoSearch", "Latitude", None, QtGui.QApplication.UnicodeUTF8))
-        self.Dist_Longitude_label.setText(QtGui.QApplication.translate("GeoSearch", "Longitude", None, QtGui.QApplication.UnicodeUTF8))
-        self.DistFormula_label.setText(QtGui.QApplication.translate("GeoSearch", "Formula", None, QtGui.QApplication.UnicodeUTF8))
-        self.VincentyElliModel_label.setText(QtGui.QApplication.translate("GeoSearch", "Vincenty Ellipsoidal Model", None, QtGui.QApplication.UnicodeUTF8))
-        self.PtA_label.setText(QtGui.QApplication.translate("GeoSearch", "Point A:", None, QtGui.QApplication.UnicodeUTF8))
-        self.PtB_label.setText(QtGui.QApplication.translate("GeoSearch", "Point B:", None, QtGui.QApplication.UnicodeUTF8))
-        self.Dist_PtB_GoToGetCoorFromMapCanvasMode_pushButton.setText(QtGui.QApplication.translate("GeoSearch", "From Map...", None, QtGui.QApplication.UnicodeUTF8))
-        self.Dist_label.setText(QtGui.QApplication.translate("GeoSearch", "Distance:", None, QtGui.QApplication.UnicodeUTF8))
-        self.Bearing_label.setText(QtGui.QApplication.translate("GeoSearch", "Bearing:", None, QtGui.QApplication.UnicodeUTF8))
-        self.BearingIsPositiveOnly_checkBox.setText(QtGui.QApplication.translate("GeoSearch", "+ve only", None, QtGui.QApplication.UnicodeUTF8))
-        self.FeatureOption_tabWidget.setTabText(self.FeatureOption_tabWidget.indexOf(self.Distance_tab), QtGui.QApplication.translate("GeoSearch", "Distance", None, QtGui.QApplication.UnicodeUTF8))
-        self.RoutePointsFmt_label.setText(QtGui.QApplication.translate("GeoSearch", "(Latitude, Longitude)/Address", None, QtGui.QApplication.UnicodeUTF8))
-        self.RoutePoints_label.setText(QtGui.QApplication.translate("GeoSearch", "Route Points", None, QtGui.QApplication.UnicodeUTF8))
-        self.Route_GoToGetCoorFromMapCanvasMode_pushButton.setText(QtGui.QApplication.translate("GeoSearch", "From Map...", None, QtGui.QApplication.UnicodeUTF8))
-        self.TravelMode_label.setText(QtGui.QApplication.translate("GeoSearch", "Travel Mode:", None, QtGui.QApplication.UnicodeUTF8))
-        self.Avoid_label.setText(QtGui.QApplication.translate("GeoSearch", "Avoid:", None, QtGui.QApplication.UnicodeUTF8))
-        self.Route_DistUnit_label.setText(QtGui.QApplication.translate("GeoSearch", "Distance Unit:", None, QtGui.QApplication.UnicodeUTF8))
-        self.SearchRoute_pushButton.setText(QtGui.QApplication.translate("GeoSearch", "Search ", None, QtGui.QApplication.UnicodeUTF8))
-        self.Route_CoorSelection_label.setText(QtGui.QApplication.translate("GeoSearch", "Right Click to exit points selection", None, QtGui.QApplication.UnicodeUTF8))
-        self.RoutePointsFmt_2_label.setText(QtGui.QApplication.translate("GeoSearch", "Point and Address can be searched togather", None, QtGui.QApplication.UnicodeUTF8))
-        self.FeatureOption_tabWidget.setTabText(self.FeatureOption_tabWidget.indexOf(self.tab), QtGui.QApplication.translate("GeoSearch", "Route", None, QtGui.QApplication.UnicodeUTF8))
+        GeoSearch.setWindowTitle(_translate("GeoSearch", "GeoSearch", None))
+        self.latitude_label.setText(_translate("GeoSearch", "Latitude", None))
+        self.Longitude_label.setText(_translate("GeoSearch", "Longitude", None))
+        self.ExactOneResult_checkBox.setText(_translate("GeoSearch", "Exact One Result", None))
+        self.SearchByAddr_pushButton.setText(_translate("GeoSearch", "Search ", None))
+        self.Geocoder_Addr_label_2.setText(_translate("GeoSearch", "Geocoder", None))
+        self.GoToGetCoorFromMapCanvasMode_pushButton.setText(_translate("GeoSearch", "From Map...", None))
+        self.SearchByPt_pushButton.setText(_translate("GeoSearch", "Search ", None))
+        self.Address_label.setText(_translate("GeoSearch", "Address", None))
+        self.Geocoder_Addr_label.setText(_translate("GeoSearch", "Geocoder", None))
+        self.SearchStatus_label.setText(_translate("GeoSearch", "Result", None))
+        self.Result_List_label.setText(_translate("GeoSearch", "Double Click below items to zoom in", None))
+        self.Result_tabWidget.setTabText(self.Result_tabWidget.indexOf(self.List_tab), _translate("GeoSearch", "List", None))
+        self.Result_List_label_2.setText(_translate("GeoSearch", "For direct copy", None))
+        self.Result_tabWidget.setTabText(self.Result_tabWidget.indexOf(self.Text_tab), _translate("GeoSearch", "Text", None))
+        self.SearchOnGoogleWebMap_checkBox.setText(_translate("GeoSearch", "Search On Google Web Map", None))
+        self.ObtainElevation_checkBox.setText(_translate("GeoSearch", "Obtain Elevation", None))
+        self.ResultFmt_label.setText(_translate("GeoSearch", "(Place, (Latitude, Longitude))", None))
+        self.FeatureOption_tabWidget.setTabText(self.FeatureOption_tabWidget.indexOf(self.Pt_tab), _translate("GeoSearch", "Point", None))
+        self.CalculateDist_pushButton.setText(_translate("GeoSearch", "Calculate", None))
+        self.Dist_PtA_GoToGetCoorFromMapCanvasMode_pushButton.setText(_translate("GeoSearch", "From Map...", None))
+        self.Dist_latitude_label.setText(_translate("GeoSearch", "Latitude", None))
+        self.Dist_Longitude_label.setText(_translate("GeoSearch", "Longitude", None))
+        self.DistFormula_label.setText(_translate("GeoSearch", "Formula", None))
+        self.VincentyElliModel_label.setText(_translate("GeoSearch", "Vincenty Ellipsoidal Model", None))
+        self.PtA_label.setText(_translate("GeoSearch", "Point A:", None))
+        self.PtB_label.setText(_translate("GeoSearch", "Point B:", None))
+        self.Dist_PtB_GoToGetCoorFromMapCanvasMode_pushButton.setText(_translate("GeoSearch", "From Map...", None))
+        self.Dist_label.setText(_translate("GeoSearch", "Distance:", None))
+        self.Bearing_label.setText(_translate("GeoSearch", "Bearing:", None))
+        self.BearingIsPositiveOnly_checkBox.setText(_translate("GeoSearch", "+ve only", None))
+        self.FeatureOption_tabWidget.setTabText(self.FeatureOption_tabWidget.indexOf(self.Distance_tab), _translate("GeoSearch", "Distance", None))
+        self.RoutePointsFmt_label.setText(_translate("GeoSearch", "(Latitude, Longitude)/Address", None))
+        self.RoutePoints_label.setText(_translate("GeoSearch", "Route Points", None))
+        self.Route_GoToGetCoorFromMapCanvasMode_pushButton.setText(_translate("GeoSearch", "From Map...", None))
+        self.TravelMode_label.setText(_translate("GeoSearch", "Travel Mode:", None))
+        self.Avoid_label.setText(_translate("GeoSearch", "Avoid:", None))
+        self.Route_DistUnit_label.setText(_translate("GeoSearch", "Distance Unit:", None))
+        self.SearchRoute_pushButton.setText(_translate("GeoSearch", "Search ", None))
+        self.Route_CoorSelection_label.setText(_translate("GeoSearch", "Right Click to exit points selection", None))
+        self.RoutePointsFmt_2_label.setText(_translate("GeoSearch", "Point and Address can be searched togather", None))
+        self.FeatureOption_tabWidget.setTabText(self.FeatureOption_tabWidget.indexOf(self.tab), _translate("GeoSearch", "Route", None))
 

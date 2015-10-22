@@ -13,7 +13,7 @@ name=GeoSearch
 qgisMinimumVersion=2.0
 description=Search location(with elevation) by words or point like google map; Calculate Distance with bearing between two points on mapCanvas.; Draw Route with multi ways points by google maps service.
 about=Search location(with elevation) by words or point like google map; Calculate Distance with bearing between two points on mapCanvas.; Draw Route with multi ways points by google maps service.
-version=1.4.0
+version=1.5.0
 author=Walter Tsui
 email=waltertech426@gmail.com
 
@@ -22,7 +22,7 @@ email=waltertech426@gmail.com
 # Optional items:
 
 # Uncomment the following line and add your changelog entries:
-changelog= Add "Enter" key response in address and point edit boxes. Thanks for suggestion from Cory Williams(coryw@amnet.net.au)
+changelog= Reset the tab ordering. Thanks for suggestion from Cory Williams(coryw@amnet.net.au)
 
 # tags are comma separated with spaces allowed
 tags=maptool

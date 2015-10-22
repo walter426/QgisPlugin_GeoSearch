@@ -815,6 +815,43 @@
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>Addr_lineEdit</tabstop>
+  <tabstop>SearchByAddr_pushButton</tabstop>
+  <tabstop>Geocoder_Addr_comboBox</tabstop>
+  <tabstop>Latitude_lineEdit</tabstop>
+  <tabstop>Longitude_lineEdit</tabstop>
+  <tabstop>SearchByPt_pushButton</tabstop>
+  <tabstop>Geocoder_Pt_comboBox</tabstop>
+  <tabstop>GoToGetCoorFromMapCanvasMode_pushButton</tabstop>
+  <tabstop>ExactOneResult_checkBox</tabstop>
+  <tabstop>ObtainElevation_checkBox</tabstop>
+  <tabstop>SearchOnGoogleWebMap_checkBox</tabstop>
+  <tabstop>Result_tabWidget</tabstop>
+  <tabstop>Result_listWidget</tabstop>
+  <tabstop>FeatureOption_tabWidget</tabstop>
+  <tabstop>DistFomula_comboBox</tabstop>
+  <tabstop>VctElliModel_comboBox</tabstop>
+  <tabstop>Dist_PtA_Latitude_lineEdit</tabstop>
+  <tabstop>Dist_PtA_Longitude_lineEdit</tabstop>
+  <tabstop>Dist_PtA_GoToGetCoorFromMapCanvasMode_pushButton</tabstop>
+  <tabstop>Dist_PtB_Latitude_lineEdit</tabstop>
+  <tabstop>Dist_PtB_Longitude_lineEdit</tabstop>
+  <tabstop>Dist_PtB_GoToGetCoorFromMapCanvasMode_pushButton</tabstop>
+  <tabstop>CalculateDist_pushButton</tabstop>
+  <tabstop>Dist_lineEdit</tabstop>
+  <tabstop>DistUnit_comboBox</tabstop>
+  <tabstop>Bearing_lineEdit</tabstop>
+  <tabstop>BearingUnit_comboBox</tabstop>
+  <tabstop>BearingIsPositiveOnly_checkBox</tabstop>
+  <tabstop>RoutePoints_textEdit</tabstop>
+  <tabstop>Route_GoToGetCoorFromMapCanvasMode_pushButton</tabstop>
+  <tabstop>Route_TravelMode_comboBox</tabstop>
+  <tabstop>Route_Avoid_comboBox</tabstop>
+  <tabstop>Route_DistUnit_comboBox</tabstop>
+  <tabstop>SearchRoute_pushButton</tabstop>
+  <tabstop>Result_textEdit</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
