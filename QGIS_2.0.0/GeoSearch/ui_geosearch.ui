@@ -345,6 +345,41 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
+    <widget class="QCheckBox" name="TurnOnGeosearchLayer_checkBox">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>110</y>
+       <width>141</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Turn On Geosearch layer</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="AppendResults_checkBox">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>130</y>
+       <width>141</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Append results</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="Distance_tab">
     <attribute name="title">
@@ -827,9 +862,10 @@
   <tabstop>ExactOneResult_checkBox</tabstop>
   <tabstop>ObtainElevation_checkBox</tabstop>
   <tabstop>SearchOnGoogleWebMap_checkBox</tabstop>
+  <tabstop>TurnOnGeosearchLayer_checkBox</tabstop>
+  <tabstop>AppendResults_checkBox</tabstop>
   <tabstop>Result_tabWidget</tabstop>
   <tabstop>Result_listWidget</tabstop>
-  <tabstop>FeatureOption_tabWidget</tabstop>
   <tabstop>DistFomula_comboBox</tabstop>
   <tabstop>VctElliModel_comboBox</tabstop>
   <tabstop>Dist_PtA_Latitude_lineEdit</tabstop>
@@ -850,6 +886,7 @@
   <tabstop>Route_Avoid_comboBox</tabstop>
   <tabstop>Route_DistUnit_comboBox</tabstop>
   <tabstop>SearchRoute_pushButton</tabstop>
+  <tabstop>FeatureOption_tabWidget</tabstop>
   <tabstop>Result_textEdit</tabstop>
  </tabstops>
  <resources/>

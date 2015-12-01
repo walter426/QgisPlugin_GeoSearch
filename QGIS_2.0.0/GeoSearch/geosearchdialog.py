@@ -60,7 +60,8 @@ class GeoSearchDialog(QtGui.QDialog):
 		self.ui.Geocoder_Addr_comboBox.setCurrentIndex(0)
 		
 		self.ui.Addr_lineEdit.setFocus()
-		self.connect(self.ui.Addr_lineEdit, SIGNAL("returnPressed()"), self.SearchByAddr_ButtonHandler);
+		#self.connect(self.ui.Addr_lineEdit, SIGNAL("returnPressed()"), self.SearchByAddr_ButtonHandler);
+		self.ui.Addr_lineEdit.returnPressed.connect(self.ui.SearchByAddr_pushButton.click)
 		self.connect(self.ui.SearchByAddr_pushButton, SIGNAL("clicked()"), self.SearchByAddr_ButtonHandler)
 		
 		
@@ -68,8 +69,10 @@ class GeoSearchDialog(QtGui.QDialog):
 		self.ui.Geocoder_Pt_comboBox.addItems(["GoogleV3"])
 		self.ui.Geocoder_Pt_comboBox.setCurrentIndex(0)
 		
-		self.connect(self.ui.Latitude_lineEdit, SIGNAL("returnPressed()"), self.SearchByPt_ButtonHandler);
-		self.connect(self.ui.Longitude_lineEdit, SIGNAL("returnPressed()"), self.SearchByPt_ButtonHandler);
+		#self.connect(self.ui.Latitude_lineEdit, SIGNAL("returnPressed()"), self.SearchByPt_ButtonHandler);
+		self.ui.Latitude_lineEdit.returnPressed.connect(self.ui.SearchByPt_pushButton.click)
+		#self.connect(self.ui.Longitude_lineEdit, SIGNAL("returnPressed()"), self.SearchByPt_ButtonHandler);
+		self.ui.Longitude_lineEdit.returnPressed.connect(self.ui.SearchByPt_pushButton.click)
 		self.connect(self.ui.SearchByPt_pushButton, SIGNAL("clicked()"), self.SearchByPt_ButtonHandler)
 		
 		#Emit Point Tool
@@ -115,10 +118,14 @@ class GeoSearchDialog(QtGui.QDialog):
 		self.connect(self.ui.Dist_PtB_GoToGetCoorFromMapCanvasMode_pushButton, SIGNAL("clicked()"), self.Dist_PtB_GoToGetCoorFromMapCanvasMode)
 
 		#Calculate button
-		self.connect(self.ui.Dist_PtA_Latitude_lineEdit, SIGNAL("returnPressed()"), self.CalculateDist_ButtonHandler);
-		self.connect(self.ui.Dist_PtA_Longitude_lineEdit, SIGNAL("returnPressed()"), self.CalculateDist_ButtonHandler);
-		self.connect(self.ui.Dist_PtB_Latitude_lineEdit, SIGNAL("returnPressed()"), self.CalculateDist_ButtonHandler);
-		self.connect(self.ui.Dist_PtB_Longitude_lineEdit, SIGNAL("returnPressed()"), self.CalculateDist_ButtonHandler);
+		#self.connect(self.ui.Dist_PtA_Latitude_lineEdit, SIGNAL("returnPressed()"), self.CalculateDist_ButtonHandler);
+		self.ui.Dist_PtA_Latitude_lineEdit.returnPressed.connect(self.ui.CalculateDist_pushButton.click)
+		#self.connect(self.ui.Dist_PtA_Longitude_lineEdit, SIGNAL("returnPressed()"), self.CalculateDist_ButtonHandler);
+		self.ui.Dist_PtA_Longitude_lineEdit.returnPressed.connect(self.ui.CalculateDist_pushButton.click)
+		#self.connect(self.ui.Dist_PtB_Latitude_lineEdit, SIGNAL("returnPressed()"), self.CalculateDist_ButtonHandler);
+		self.ui.Dist_PtB_Latitude_lineEdit.returnPressed.connect(self.ui.CalculateDist_pushButton.click)
+		#self.connect(self.ui.Dist_PtB_Longitude_lineEdit, SIGNAL("returnPressed()"), self.CalculateDist_ButtonHandler);
+		self.ui.Dist_PtB_Longitude_lineEdit.returnPressed.connect(self.ui.CalculateDist_pushButton.click)
 		self.connect(self.ui.CalculateDist_pushButton, SIGNAL("clicked()"), self.CalculateDist_ButtonHandler)
 		#}
 		
@@ -145,7 +152,8 @@ class GeoSearchDialog(QtGui.QDialog):
 		self.ui.Route_DistUnit_comboBox.addItems(["metric", "imperial"])
 		
 		self.connect(self.ui.Route_GoToGetCoorFromMapCanvasMode_pushButton, SIGNAL("clicked()"), self.Route_GoToGetCoorFromMapCanvasMode)
-		self.connect(self.ui.RoutePoints_textEdit, SIGNAL("returnPressed()"), self.SearchRoute_ButtonHandler);
+		#self.connect(self.ui.RoutePoints_textEdit, SIGNAL("returnPressed()"), self.SearchRoute_ButtonHandler);
+		#self.ui.RoutePoints_textEdit.returnPressed.connect(self.ui.SearchRoute_pushButton.click)
 		self.connect(self.ui.SearchRoute_pushButton, SIGNAL("clicked()"), self.SearchRoute_ButtonHandler)
 
 		#}
@@ -170,13 +178,14 @@ class GeoSearchDialog(QtGui.QDialog):
    
 	def SearchByAddr_ButtonHandler(self):
 		self.ui.SearchStatus_label.setText("Searching......")
-		result = self.SearchByAddr(unicode(self.ui.Addr_lineEdit.text()), self.ui.Geocoder_Addr_comboBox.currentText(), self.ui.ExactOneResult_checkBox.isChecked(), self.ui.SearchOnGoogleWebMap_checkBox.isChecked(), self.ui.ObtainElevation_checkBox.isChecked())
+		result = self.SearchByAddr(unicode(self.ui.Addr_lineEdit.text()), self.ui.Geocoder_Addr_comboBox.currentText(), self.ui.ExactOneResult_checkBox.isChecked(), self.ui.SearchOnGoogleWebMap_checkBox.isChecked(), self.ui.ObtainElevation_checkBox.isChecked()
+		, self.ui.TurnOnGeosearchLayer_checkBox.isChecked(), self.ui.AppendResults_checkBox.isChecked())
 		self.ui.SearchStatus_label.setText("Result")
 		
-		self.UpdateSearchResult(result)
+		self.UpdateSearchResult(result, self.ui.AppendResults_checkBox.isChecked())
 		
 		
-	def SearchByAddr(self, Addr, geocoder_type, exactly_one = True, SearchOnGoogleWebMap = False, ObtainElevation = False):
+	def SearchByAddr(self, Addr, geocoder_type, exactly_one = True, SearchOnGoogleWebMap = False, ObtainElevation = False, ShowLayer = True, AppendResult = False):
 		if len(Addr) <= 0:
 			return
 
@@ -244,9 +253,26 @@ class GeoSearchDialog(QtGui.QDialog):
 		#Obtain Elevation
 		if ObtainElevation == True:
 			self.AppendElevationIntoGeocodeResult(result)
-			
+		
+		#Clear text box when Geosearch layer does not exist
+		Vl_Gs_Exist = False
+		mapLayers = QgsMapLayerRegistry.instance().mapLayers()
+		
+		for (name,layer) in mapLayers.iteritems():
+			if layer.type() != QgsVectorLayer.VectorLayer:
+				continue
+				
+			if layer.name() == "GeoSearch":
+				Vl_Gs_Exist = True
+				
+				break
+		
+		if Vl_Gs_Exist == False:
+			self.ui.Result_textEdit.clear()
+			self.ui.Result_listWidget.clear()
+				
 		#Create vectorlayer, GeoSearch
-		self.CreateVectorLayerGeoSearch(result)
+		self.CreateVectorLayerGeoSearch(result, ShowLayer, AppendResult)
 			
 		return result
 	
@@ -299,13 +325,14 @@ class GeoSearchDialog(QtGui.QDialog):
 	
 	def SearchByPt_ButtonHandler(self):
 		self.ui.SearchStatus_label.setText("Searching......")
-		result = self.SearchByPt(str(self.ui.Latitude_lineEdit.text()), str(self.ui.Longitude_lineEdit.text()), self.ui.Geocoder_Pt_comboBox.currentText(), self.ui.ExactOneResult_checkBox.isChecked(), self.ui.SearchOnGoogleWebMap_checkBox.isChecked(), self.ui.ObtainElevation_checkBox.isChecked())
+		result = self.SearchByPt(str(self.ui.Latitude_lineEdit.text()), str(self.ui.Longitude_lineEdit.text()), self.ui.Geocoder_Pt_comboBox.currentText(), self.ui.ExactOneResult_checkBox.isChecked(), self.ui.SearchOnGoogleWebMap_checkBox.isChecked(), self.ui.ObtainElevation_checkBox.isChecked()
+		, self.ui.TurnOnGeosearchLayer_checkBox.isChecked(), self.ui.AppendResults_checkBox.isChecked())
 		self.ui.SearchStatus_label.setText("Result")
 		
-		self.UpdateSearchResult(result)
+		self.UpdateSearchResult(result, self.ui.AppendResults_checkBox.isChecked())
 		
 		
-	def SearchByPt(self, lat, lnt, geocoder_type, exactly_one, SearchOnGoogleWebMap = False, ObtainElevation = False):
+	def SearchByPt(self, lat, lnt, geocoder_type, exactly_one, SearchOnGoogleWebMap = False, ObtainElevation = False, ShowLayer = False, AppendResult = False):
 		if SearchOnGoogleWebMap == True:
 			import webbrowser
 			webbrowser.open("https://www.google.com/maps/@" + lat + "%2C" + lnt + ",15z")
@@ -350,9 +377,26 @@ class GeoSearchDialog(QtGui.QDialog):
 		#Obtain Elevation
 		if ObtainElevation == True:
 			self.AppendElevationIntoGeocodeResult(result)
-			
+		
+		#Clear text box when Geosearch layer does not exist
+		Vl_Gs_Exist = False
+		mapLayers = QgsMapLayerRegistry.instance().mapLayers()
+		
+		for (name,layer) in mapLayers.iteritems():
+			if layer.type() != QgsVectorLayer.VectorLayer:
+				continue
+				
+			if layer.name() == "GeoSearch":
+				Vl_Gs_Exist = True
+				
+				break
+		
+		if Vl_Gs_Exist == False:
+			self.ui.Result_textEdit.clear()
+			self.ui.Result_listWidget.clear()
+		
 		#Create vectorlayer, GeoSearch
-		self.CreateVectorLayerGeoSearch(result)
+		self.CreateVectorLayerGeoSearch(result, ShowLayer, AppendResult)
 		
 		return result
 		
@@ -380,30 +424,43 @@ class GeoSearchDialog(QtGui.QDialog):
 		return result
 		
 	
-	def CreateVectorLayerGeoSearch(self, result):
+	def CreateVectorLayerGeoSearch(self, result, ShowLayer = True, AppendResult = False):
 		#Create the vector layer of the result
 		mapLayers = QgsMapLayerRegistry.instance().mapLayers()
+		IsANewLayer = True
 		
 		for (name,layer) in mapLayers.iteritems():
 			if layer.type() != QgsVectorLayer.VectorLayer:
 				continue
 				
 			if layer.name() == "GeoSearch":
-				QgsMapLayerRegistry.instance().removeMapLayer(layer.id())
+				if AppendResult == False:
+					QgsMapLayerRegistry.instance().removeMapLayer(layer.id())
+				
+				else:
+					IsANewLayer = False
+					Vl_Gs = QgsMapLayerRegistry.instance().mapLayer(layer.id())
+				
 				break
 		
 		if isinstance(result, (list, tuple)) == False:
 			return
 			
-		str_FldSet = "field=Place:string(50)"
-		
-		if len(result[0]) >= 3:
-			str_FldSet = str_FldSet + "&field=Elevation:double&field=Resolution:double"
-		
-		Vl_Gs = QgsVectorLayer("Point?crs=epsg:4326&" + str_FldSet + "&index=yes", "GeoSearch", "memory")
+			
+		if IsANewLayer == True:
+			str_FldSet = "field=Place:string(50)"
+			
+			if len(result[0]) >= 3:
+				str_FldSet = str_FldSet + "&field=Elevation:double&field=Resolution:double"
+			
+			Vl_Gs = QgsVectorLayer("Point?crs=epsg:4326&" + str_FldSet + "&index=yes", "GeoSearch", "memory")
+			
+			
 		dP_Gs = Vl_Gs.dataProvider()
 		#Vl_Gs.setCrs(self.mapCanvas.mapRenderer().destinationCrs())
-		QgsMapLayerRegistry.instance().addMapLayer(Vl_Gs)
+		
+		if IsANewLayer == True:
+			QgsMapLayerRegistry.instance().addMapLayer(Vl_Gs)
 		
 		
 		# add fields
@@ -445,6 +502,9 @@ class GeoSearchDialog(QtGui.QDialog):
 		for feat in FetSet:
 			FetIdList.append(feat.id())
 
+		if IsANewLayer == False:
+			FetIdList = [FetIdList[-1]]
+			
 		#QMessageBox.information(None, "Error", str(feat.id()))
 
 		#Refresh the MapCanvas
@@ -457,10 +517,16 @@ class GeoSearchDialog(QtGui.QDialog):
 		self.mapCanvas.zoomToSelected(Vl_Gs)
 		#self.mapCanvas.zoomOut()
 		
+		#Determine whether to show geosearch layer
+		self.iface.legendInterface().setLayerVisible(Vl_Gs, ShowLayer)
 		
-	def UpdateSearchResult(self, result):
-		self.ui.Result_textEdit.clear()
-		self.ui.Result_listWidget.clear()
+		self.mapCanvas.refresh()
+		
+
+	def UpdateSearchResult(self, result, AppendResult = False):
+		if AppendResult == False:
+			self.ui.Result_textEdit.clear()
+			self.ui.Result_listWidget.clear()
 		
 		if isinstance(result, (list, tuple)) == False:
 			return
